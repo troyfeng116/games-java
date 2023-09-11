@@ -1,11 +1,11 @@
 package com.tfunk116.Game;
 
 import com.tfunk116.Game.Action.Action;
+import com.tfunk116.Game.GameState.GameState;
+import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
+import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
+import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Player.Player;
-import com.tfunk116.Game.State.GameState;
-import com.tfunk116.Game.State.GameState.IllegalGameActionException;
-import com.tfunk116.Game.State.GameState.IllegalGamePayoffException;
-import com.tfunk116.Game.State.GameState.IllegalGameStateException;
 
 /*
  * Game.init()

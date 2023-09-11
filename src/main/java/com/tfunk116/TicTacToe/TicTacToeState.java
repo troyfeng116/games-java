@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.tfunk116.Game.GameStatus;
+import com.tfunk116.Game.GameState.GameState;
 import com.tfunk116.Game.Player.Player;
-import com.tfunk116.Game.State.GameState;
+import com.tfunk116.Game.Visitors.GameStateVisitor;
 
 public class TicTacToeState extends GameState<TicTacToeAction> {
     private final int theBoardSize;
@@ -25,6 +26,14 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
         theBoard = aBoard;
     }
 
+    public int getBoardSize() {
+        return theBoardSize;
+    }
+
+    public TicTacToeCell[][] getBoard() {
+        return theBoard;
+    }
+
     @Override
     public List<TicTacToeAction> getLegalActions() {
         if (isTerminal()) {
@@ -34,7 +43,7 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
         List<TicTacToeAction> myLegalActions = new ArrayList<>();
         for (int myRow = 0; myRow < theBoardSize; myRow++) {
             for (int myCol = 0; myCol < theBoardSize; myCol++) {
-                if (theBoard[myRow][myCol] == null) {
+                if (theBoard[myRow][myCol] == TicTacToeCell.EMPTY) {
                     myLegalActions.add(new TicTacToeAction(myRow, myCol));
                 }
             }
@@ -49,10 +58,10 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
             return false;
         }
 
-        int myRow = aAction.getRow(), myCol = aAction.getRow();
+        int myRow = aAction.getRow(), myCol = aAction.getCol();
 
         return 0 <= myRow && myRow < theBoardSize && 0 <= myCol && myCol < theBoardSize
-                && theBoard[myRow][myCol] == null;
+                && theBoard[myRow][myCol] == TicTacToeCell.EMPTY;
     }
 
     @Override
@@ -71,7 +80,7 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
 
         myNewBoard[aAction.getRow()][aAction.getCol()] = isMaxPlayerTurn() ? TicTacToeCell.MAX_PLAYER
                 : TicTacToeCell.MIN_PLAYER;
-        return new TicTacToeState(getMaxPlayer(), getMinPlayer(), isMaxPlayerTurn(), theBoardSize, myNewBoard);
+        return new TicTacToeState(getMaxPlayer(), getMinPlayer(), !isMaxPlayerTurn(), theBoardSize, myNewBoard);
     }
 
     @Override
@@ -105,14 +114,17 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
             for (int myRow = 0; myRow < theBoardSize; myRow++) {
                 myColDim.add(theBoard[myRow][myCol]);
             }
+            myDimsToCheck.add(myColDim);
         }
 
         List<TicTacToeCell> myDiag1 = new ArrayList<>();
         List<TicTacToeCell> myDiag2 = new ArrayList<>();
         for (int myI = 0; myI < theBoardSize; myI++) {
             myDiag1.add(theBoard[myI][myI]);
-            myDiag2.add(theBoard[myI][theBoardSize - myI + 1]);
+            myDiag2.add(theBoard[myI][theBoardSize - myI - 1]);
         }
+        myDimsToCheck.add(myDiag1);
+        myDimsToCheck.add(myDiag2);
 
         GameStatus myStatus = GameStatus.TIE;
         for (var myDim : myDimsToCheck) {
@@ -146,6 +158,11 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
         if (myMinCt == theBoardSize) {
             return GameStatus.MIN_PLAYER_WIN;
         }
-        return myMaxCt + myMinCt == theBoardSize ? GameStatus.IN_PROGRESS : GameStatus.TIE;
+        return myMaxCt + myMinCt == theBoardSize ? GameStatus.TIE : GameStatus.IN_PROGRESS;
+    }
+
+    @Override
+    public <T> T accept(GameStateVisitor<T> aVisitor) {
+        return aVisitor.visit(this);
     }
 }

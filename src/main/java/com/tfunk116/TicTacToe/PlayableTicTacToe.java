@@ -3,8 +3,8 @@ package com.tfunk116.TicTacToe;
 import java.util.Arrays;
 
 import com.tfunk116.Game.PlayableGame;
+import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Player.Player;
-import com.tfunk116.Game.State.GameState.IllegalGameStateException;
 
 public class PlayableTicTacToe extends PlayableGame<TicTacToeAction> {
     private final int theBoardSize;
