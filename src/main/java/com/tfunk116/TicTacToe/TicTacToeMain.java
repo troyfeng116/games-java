@@ -10,9 +10,11 @@ import com.tfunk116.Game.Policy.Policy;
 public class TicTacToeMain {
     public static void main(String[] args)
             throws IllegalGameStateException, IllegalGameActionException, IllegalGamePayoffException {
-        Policy<TicTacToeAction> myPlayer1Policy = new TicTacToeRandomPolicy();
+        // Policy<TicTacToeAction> myPlayer1Policy = new TicTacToeMinimaxPolicy();
+        Policy<TicTacToeAction> myPlayer1Policy = TicTacToeRandomPolicy.INSTANCE;
         Player<TicTacToeAction> myPlayer1 = new Player<>("Troy", myPlayer1Policy);
-        Policy<TicTacToeAction> myPlayer2Policy = new TicTacToeRandomPolicy();
+        Policy<TicTacToeAction> myPlayer2Policy = new TicTacToeMinimaxPolicy();
+        // Policy<TicTacToeAction> myPlayer2Policy = TicTacToeRandomPolicy.INSTANCE;
         Player<TicTacToeAction> myPlayer2 = new Player<>("Computer", myPlayer2Policy);
         PlayableTicTacToe myPlayableTicTacToe = new PlayableTicTacToe(myPlayer1, myPlayer2, 3);
         // myPlayableTicTacToe.playThroughGame();
