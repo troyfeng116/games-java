@@ -6,6 +6,7 @@ import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
 import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
 import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Player.Player;
+import com.tfunk116.Game.Visitors.GameReportVisitor;
 
 /*
  * Game.init()
@@ -45,6 +46,7 @@ public abstract class PlayableGame<A extends Action> {
             myCurState = myCurState.getSuccessor(mySelectedAction);
         }
 
+        System.out.println(myCurState.accept(GameReportVisitor.INSTANCE));
         return myCurState.getMaxPlayerPayoff();
     }
 }
