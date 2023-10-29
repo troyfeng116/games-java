@@ -1,4 +1,4 @@
-package com.tfunk116.TicTacToe;
+package com.tfunk116.TwoPlayer.TicTacToe;
 
 public enum TicTacToeCell {
     MAX_PLAYER,

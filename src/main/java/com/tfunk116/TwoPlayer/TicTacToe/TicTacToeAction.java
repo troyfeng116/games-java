@@ -1,6 +1,6 @@
-package com.tfunk116.TicTacToe;
+package com.tfunk116.TwoPlayer.TicTacToe;
 
-import com.tfunk116.Game.Action.Action;
+import com.tfunk116.TwoPlayer.Game.Action.Action;
 
 public class TicTacToeAction implements Action {
     private final int theRow;

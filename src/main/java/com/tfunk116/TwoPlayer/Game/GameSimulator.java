@@ -1,9 +1,9 @@
-package com.tfunk116.Game;
+package com.tfunk116.TwoPlayer.Game;
 
-import com.tfunk116.Game.Action.Action;
-import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
-import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
-import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
+import com.tfunk116.TwoPlayer.Game.Action.Action;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGameActionException;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGamePayoffException;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGameStateException;
 
 public class GameSimulator<A extends Action> {
     private final int theNumSimulations;

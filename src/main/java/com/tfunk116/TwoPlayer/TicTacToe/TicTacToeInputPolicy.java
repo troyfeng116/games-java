@@ -1,10 +1,10 @@
-package com.tfunk116.TicTacToe;
+package com.tfunk116.TwoPlayer.TicTacToe;
 
 import java.util.Scanner;
 
-import com.tfunk116.Game.GameState.GameState;
-import com.tfunk116.Game.Policy.Policy;
-import com.tfunk116.Game.Visitors.InputStringVisitor;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState;
+import com.tfunk116.TwoPlayer.Game.Policy.Policy;
+import com.tfunk116.TwoPlayer.Game.Visitors.InputStringVisitor;
 
 public class TicTacToeInputPolicy implements Policy<TicTacToeAction> {
     private static TicTacToeAction promptTicTacToeAction(GameState<TicTacToeAction> aState, Scanner aScanner) {

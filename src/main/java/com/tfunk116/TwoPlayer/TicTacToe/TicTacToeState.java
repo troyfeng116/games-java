@@ -1,13 +1,13 @@
-package com.tfunk116.TicTacToe;
+package com.tfunk116.TwoPlayer.TicTacToe;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.tfunk116.Game.GameStatus;
-import com.tfunk116.Game.GameState.GameState;
-import com.tfunk116.Game.Player.Player;
-import com.tfunk116.Game.Visitors.GameStateVisitor;
+import com.tfunk116.TwoPlayer.Game.GameStatus;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState;
+import com.tfunk116.TwoPlayer.Game.Player.Player;
+import com.tfunk116.TwoPlayer.Game.Visitors.GameStateVisitor;
 
 public class TicTacToeState extends GameState<TicTacToeAction> {
     private final int theBoardSize;

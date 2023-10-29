@@ -1,11 +1,11 @@
-package com.tfunk116.TicTacToe;
+package com.tfunk116.TwoPlayer.TicTacToe;
 
-import com.tfunk116.Game.GameSimulator;
-import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
-import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
-import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
-import com.tfunk116.Game.Player.Player;
-import com.tfunk116.Game.Policy.Policy;
+import com.tfunk116.TwoPlayer.Game.GameSimulator;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGameActionException;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGamePayoffException;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGameStateException;
+import com.tfunk116.TwoPlayer.Game.Player.Player;
+import com.tfunk116.TwoPlayer.Game.Policy.Policy;
 
 public class TicTacToeMain {
     public static void main(String[] args)

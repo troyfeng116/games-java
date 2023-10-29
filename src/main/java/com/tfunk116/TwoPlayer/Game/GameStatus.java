@@ -1,4 +1,4 @@
-package com.tfunk116.Game;
+package com.tfunk116.TwoPlayer.Game;
 
 public enum GameStatus {
     IN_PROGRESS,

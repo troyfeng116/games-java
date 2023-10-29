@@ -1,7 +1,7 @@
-package com.tfunk116.Game.Visitors;
+package com.tfunk116.TwoPlayer.Game.Visitors;
 
-import com.tfunk116.TicTacToe.TicTacToeCell;
-import com.tfunk116.TicTacToe.TicTacToeState;
+import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeCell;
+import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeState;
 
 public enum InputStringVisitor implements GameStateVisitor<String> {
     INSTANCE;

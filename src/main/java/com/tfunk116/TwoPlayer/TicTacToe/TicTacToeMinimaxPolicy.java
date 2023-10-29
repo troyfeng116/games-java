@@ -1,11 +1,12 @@
-package com.tfunk116.TicTacToe;
+package com.tfunk116.TwoPlayer.TicTacToe;
 
 import java.util.List;
-import com.tfunk116.Game.GameState.GameState;
-import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
-import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
-import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
-import com.tfunk116.Game.Policy.Policy;
+
+import com.tfunk116.TwoPlayer.Game.GameState.GameState;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGameActionException;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGamePayoffException;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGameStateException;
+import com.tfunk116.TwoPlayer.Game.Policy.Policy;
 
 public class TicTacToeMinimaxPolicy implements Policy<TicTacToeAction> {
 

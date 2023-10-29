@@ -1,9 +1,9 @@
-package com.tfunk116.Game.Policy;
+package com.tfunk116.TwoPlayer.Game.Policy;
 
 import java.util.List;
 
-import com.tfunk116.Game.Action.Action;
-import com.tfunk116.Game.GameState.GameState;
+import com.tfunk116.TwoPlayer.Game.Action.Action;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState;
 
 public interface Policy<A extends Action> {
     default A selectAction(GameState<A> aState) {

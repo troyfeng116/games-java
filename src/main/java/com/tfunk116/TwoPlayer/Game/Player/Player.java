@@ -1,8 +1,8 @@
-package com.tfunk116.Game.Player;
+package com.tfunk116.TwoPlayer.Game.Player;
 
-import com.tfunk116.Game.Action.Action;
-import com.tfunk116.Game.GameState.GameState;
-import com.tfunk116.Game.Policy.Policy;
+import com.tfunk116.TwoPlayer.Game.Action.Action;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState;
+import com.tfunk116.TwoPlayer.Game.Policy.Policy;
 
 public class Player<A extends Action> {
     private final String theName;

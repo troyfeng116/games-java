@@ -1,9 +1,9 @@
-package com.tfunk116.Game.GameState;
+package com.tfunk116.TwoPlayer.Game.GameState;
 
 import java.util.List;
 
-import com.tfunk116.Game.Action.Action;
-import com.tfunk116.Game.Player.Player;
+import com.tfunk116.TwoPlayer.Game.Action.Action;
+import com.tfunk116.TwoPlayer.Game.Player.Player;
 
 public abstract class GameState<A extends Action> implements GameStateVisitable {
     private final Player<A> theMaxPlayer;

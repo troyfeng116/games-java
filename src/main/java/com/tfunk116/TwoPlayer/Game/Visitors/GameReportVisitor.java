@@ -1,9 +1,9 @@
-package com.tfunk116.Game.Visitors;
+package com.tfunk116.TwoPlayer.Game.Visitors;
 
-import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
-import com.tfunk116.Game.Player.Player;
-import com.tfunk116.TicTacToe.TicTacToeAction;
-import com.tfunk116.TicTacToe.TicTacToeState;
+import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGamePayoffException;
+import com.tfunk116.TwoPlayer.Game.Player.Player;
+import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeAction;
+import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeState;
 
 public enum GameReportVisitor implements GameStateVisitor<String> {
     INSTANCE;
