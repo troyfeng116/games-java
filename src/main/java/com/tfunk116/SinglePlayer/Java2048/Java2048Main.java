@@ -3,8 +3,8 @@ package com.tfunk116.SinglePlayer.Java2048;
 import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
 import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
 import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
+import com.tfunk116.SinglePlayer.Game.Player.SinglePlayerImpl;
 import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerPolicy;
-import com.tfunk116.SinglePlayer.Player.SinglePlayerImpl;
 
 public class Java2048Main {
     public static void main(String[] args)

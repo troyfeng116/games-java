@@ -1,4 +1,4 @@
-package com.tfunk116.SinglePlayer.Player;
+package com.tfunk116.SinglePlayer.Game.Player;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.Game.Player.Player;
