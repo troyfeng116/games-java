@@ -1,16 +1,16 @@
 package com.tfunk116.SinglePlayer.Game;
 
-import com.tfunk116.SinglePlayer.Game.Action.Action;
-import com.tfunk116.SinglePlayer.Game.GameState.GameState.IllegalGameActionException;
-import com.tfunk116.SinglePlayer.Game.GameState.GameState.IllegalGamePayoffException;
-import com.tfunk116.SinglePlayer.Game.GameState.GameState.IllegalGameStateException;
+import com.tfunk116.Game.Action.Action;
+import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
+import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
+import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 
-public class GameSimulator<A extends Action> {
+public class SinglePlayerGameSimulator<A extends Action> {
     private final int theNumSimulations;
-    private final PlayableGame<A> thePlayableGame;
+    private final SinglePlayerPlayableGame<A> thePlayableGame;
     private final SimStatistics theSimStatistics;
 
-    public GameSimulator(int aNumSimulations, PlayableGame<A> aPlayableGame) {
+    public SinglePlayerGameSimulator(int aNumSimulations, SinglePlayerPlayableGame<A> aPlayableGame) {
         theNumSimulations = aNumSimulations;
         thePlayableGame = aPlayableGame;
         theSimStatistics = new SimStatistics(aPlayableGame.getPlayer().getName());
@@ -39,31 +39,30 @@ public class GameSimulator<A extends Action> {
 
         void recordResult(double aPayoff) {
             theNumSimulationsRun++;
-            thePlayerStatistics.updatePayoff(aPayoff);
+            thePlayerStatistics.updateTotalPayoff(aPayoff);
         }
 
         String getSimReport() {
-            double myMaxPlayerAvg = thePlayerStatistics.getPoints() / theNumSimulationsRun;
-            double myMinPlayerAvg = theMinPlayerStatistics.getPoints() / theNumSimulationsRun;
+            double myPlayerAvg = thePlayerStatistics.getTotalPayoff() / theNumSimulationsRun;
             return String.format(
-                    "======== Simulation report ========\n%d simulations\nMax player %s avg wins: %f\nMin player %s avg wins: %f\n========\n",
-                    theNumSimulationsRun, thePlayerName, myMaxPlayerAvg, theMinPlayerName, myMinPlayerAvg);
+                    "======== Simulation report ========\n%d simulations\nPlayer %s avg payoff: %f\n========\n",
+                    theNumSimulationsRun, thePlayerName, myPlayerAvg);
         }
     }
 
     static class PlayerStatistics {
-        private double thePayoff;
+        private double theTotalPayoff;
 
         PlayerStatistics() {
-            thePayoff = 0.0;
+            theTotalPayoff = 0.0;
         }
 
-        double getPoints() {
-            return thePayoff;
+        double getTotalPayoff() {
+            return theTotalPayoff;
         }
 
-        void updatePayoff(double aPayoff) {
-            thePayoff += aPayoff;
+        void updateTotalPayoff(double aPayoff) {
+            theTotalPayoff += aPayoff;
         }
     }
 }

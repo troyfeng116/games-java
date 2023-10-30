@@ -2,13 +2,13 @@ package com.tfunk116.TwoPlayer.TicTacToe;
 
 import java.util.List;
 
-import com.tfunk116.TwoPlayer.Game.GameState.GameState;
-import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGameActionException;
-import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGamePayoffException;
-import com.tfunk116.TwoPlayer.Game.GameState.GameState.IllegalGameStateException;
-import com.tfunk116.TwoPlayer.Game.Policy.Policy;
+import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
+import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
+import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
+import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
+import com.tfunk116.TwoPlayer.Game.Policy.TwoPlayerPolicy;
 
-public class TicTacToeMinimaxPolicy implements Policy<TicTacToeAction> {
+public class TicTacToeMinimaxPolicy implements TwoPlayerPolicy<TicTacToeAction> {
 
     /**
      * Search game state tree to find max guaranteed (min) P1 points for max player,
@@ -20,7 +20,7 @@ public class TicTacToeMinimaxPolicy implements Policy<TicTacToeAction> {
      * @throws IllegalGameStateException
      * @throws IllegalGameActionException
      */
-    private double minimax(GameState<TicTacToeAction> aState)
+    private double minimax(TwoPlayerGameState<TicTacToeAction> aState)
             throws IllegalGamePayoffException, IllegalGameActionException, IllegalGameStateException {
         if (aState.isTerminal()) {
             return aState.getMaxPlayerPayoff();
@@ -43,7 +43,7 @@ public class TicTacToeMinimaxPolicy implements Policy<TicTacToeAction> {
     }
 
     @Override
-    public TicTacToeAction selectAction(GameState<TicTacToeAction> aState) {
+    public TicTacToeAction selectAction(TwoPlayerGameState<TicTacToeAction> aState) {
         try {
             List<TicTacToeAction> myActions = aState.getLegalActions();
             TicTacToeAction myBestAction = TicTacToeRandomPolicy.INSTANCE.selectAction(aState);

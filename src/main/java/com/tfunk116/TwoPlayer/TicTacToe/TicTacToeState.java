@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.tfunk116.TwoPlayer.Game.GameStatus;
-import com.tfunk116.TwoPlayer.Game.GameState.GameState;
-import com.tfunk116.TwoPlayer.Game.Player.Player;
-import com.tfunk116.TwoPlayer.Game.Visitors.GameStateVisitor;
+import com.tfunk116.Game.Player.Player;
+import com.tfunk116.TwoPlayer.Game.TwoPlayerGameStatus;
+import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
+import com.tfunk116.TwoPlayer.Game.Visitors.TwoPlayerGameStateVisitor;
 
-public class TicTacToeState extends GameState<TicTacToeAction> {
+public class TicTacToeState extends TwoPlayerGameState<TicTacToeAction> {
     private final int theBoardSize;
     private final TicTacToeCell[][] theBoard;
 
-    public TicTacToeState(Player<TicTacToeAction> aMaxPlayer, Player<TicTacToeAction> aMinPlayer,
+    public TicTacToeState(Player<TicTacToeAction, TwoPlayerGameState<TicTacToeAction>> aMaxPlayer,
+            Player<TicTacToeAction, TwoPlayerGameState<TicTacToeAction>> aMinPlayer,
             boolean isMaxPlayerTurn, int aBoardSize, TicTacToeCell[][] aBoard)
             throws IllegalGameStateException {
         super(aMaxPlayer, aMinPlayer, isMaxPlayerTurn);
@@ -85,7 +86,7 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
 
     @Override
     public boolean isTerminal() {
-        return checkBoardForWinner() != GameStatus.IN_PROGRESS;
+        return checkBoardForWinner() != TwoPlayerGameStatus.IN_PROGRESS;
     }
 
     @Override
@@ -94,7 +95,7 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
             throw new IllegalGamePayoffException(TicTacToeState.class);
         }
 
-        GameStatus myStatus = checkBoardForWinner();
+        TwoPlayerGameStatus myStatus = checkBoardForWinner();
         return switch (myStatus) {
             case IN_PROGRESS -> throw new IllegalGamePayoffException(TicTacToeState.class);
             case TIE -> 0.0;
@@ -103,7 +104,12 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
         };
     }
 
-    private GameStatus checkBoardForWinner() {
+    @Override
+    public <T> T accept(TwoPlayerGameStateVisitor<T> aVisitor) {
+        return aVisitor.visit(this);
+    }
+
+    private TwoPlayerGameStatus checkBoardForWinner() {
         List<List<TicTacToeCell>> myDimsToCheck = new ArrayList<>();
         for (var myRow : theBoard) {
             myDimsToCheck.add(Arrays.asList(myRow));
@@ -126,22 +132,23 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
         myDimsToCheck.add(myDiag1);
         myDimsToCheck.add(myDiag2);
 
-        GameStatus myStatus = GameStatus.TIE;
+        TwoPlayerGameStatus myStatus = TwoPlayerGameStatus.TIE;
         for (var myDim : myDimsToCheck) {
-            GameStatus myDimStatus = checkDimension(myDim);
-            if (myDimStatus == GameStatus.MAX_PLAYER_WIN || myDimStatus == GameStatus.MIN_PLAYER_WIN) {
+            TwoPlayerGameStatus myDimStatus = checkDimension(myDim);
+            if (myDimStatus == TwoPlayerGameStatus.MAX_PLAYER_WIN
+                    || myDimStatus == TwoPlayerGameStatus.MIN_PLAYER_WIN) {
                 return myDimStatus;
             }
 
-            if (myDimStatus == GameStatus.IN_PROGRESS) {
-                myStatus = GameStatus.IN_PROGRESS;
+            if (myDimStatus == TwoPlayerGameStatus.IN_PROGRESS) {
+                myStatus = TwoPlayerGameStatus.IN_PROGRESS;
             }
         }
 
         return myStatus;
     }
 
-    private GameStatus checkDimension(List<TicTacToeCell> aDim) {
+    private TwoPlayerGameStatus checkDimension(List<TicTacToeCell> aDim) {
         int myMaxCt = 0, myMinCt = 0;
         for (TicTacToeCell myCell : aDim) {
             switch (myCell) {
@@ -153,16 +160,11 @@ public class TicTacToeState extends GameState<TicTacToeAction> {
         }
 
         if (myMaxCt == theBoardSize) {
-            return GameStatus.MAX_PLAYER_WIN;
+            return TwoPlayerGameStatus.MAX_PLAYER_WIN;
         }
         if (myMinCt == theBoardSize) {
-            return GameStatus.MIN_PLAYER_WIN;
+            return TwoPlayerGameStatus.MIN_PLAYER_WIN;
         }
-        return myMaxCt + myMinCt == theBoardSize ? GameStatus.TIE : GameStatus.IN_PROGRESS;
-    }
-
-    @Override
-    public <T> T accept(GameStateVisitor<T> aVisitor) {
-        return aVisitor.visit(this);
+        return myMaxCt + myMinCt == theBoardSize ? TwoPlayerGameStatus.TIE : TwoPlayerGameStatus.IN_PROGRESS;
     }
 }

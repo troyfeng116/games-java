@@ -2,10 +2,10 @@ package com.tfunk116.SinglePlayer.Game.Visitors;
 
 import com.tfunk116.SinglePlayer.Java2048.Java2048State;
 
-public enum InputStringVisitor implements GameStateVisitor<String> {
+public enum SinglePlayerInputStringVisitor implements SinglePlayerGameStateVisitor<String> {
     INSTANCE;
 
-    private InputStringVisitor() {
+    private SinglePlayerInputStringVisitor() {
     };
 
     @Override

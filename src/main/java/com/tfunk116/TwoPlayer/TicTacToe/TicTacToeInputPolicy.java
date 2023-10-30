@@ -2,13 +2,13 @@ package com.tfunk116.TwoPlayer.TicTacToe;
 
 import java.util.Scanner;
 
-import com.tfunk116.TwoPlayer.Game.GameState.GameState;
-import com.tfunk116.TwoPlayer.Game.Policy.Policy;
-import com.tfunk116.TwoPlayer.Game.Visitors.InputStringVisitor;
+import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
+import com.tfunk116.TwoPlayer.Game.Policy.TwoPlayerPolicy;
+import com.tfunk116.TwoPlayer.Game.Visitors.TwoPlayerInputStringVisitor;
 
-public class TicTacToeInputPolicy implements Policy<TicTacToeAction> {
-    private static TicTacToeAction promptTicTacToeAction(GameState<TicTacToeAction> aState, Scanner aScanner) {
-        System.out.println(aState.accept(InputStringVisitor.INSTANCE));
+public class TicTacToeInputPolicy implements TwoPlayerPolicy<TicTacToeAction> {
+    private static TicTacToeAction promptTicTacToeAction(TwoPlayerGameState<TicTacToeAction> aState, Scanner aScanner) {
+        System.out.println(aState.accept(TwoPlayerInputStringVisitor.INSTANCE));
 
         System.out.print("Input row: ");
         int myRow = aScanner.nextInt();
@@ -19,7 +19,7 @@ public class TicTacToeInputPolicy implements Policy<TicTacToeAction> {
     }
 
     @Override
-    public TicTacToeAction selectAction(GameState<TicTacToeAction> aState) {
+    public TicTacToeAction selectAction(TwoPlayerGameState<TicTacToeAction> aState) {
         Scanner myScanner = new Scanner(System.in);
         TicTacToeAction myAction;
         do {

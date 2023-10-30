@@ -1,30 +1,31 @@
-package com.tfunk116.SinglePlayer.Game.GameState;
+package com.tfunk116.Game.GameState;
 
 import java.util.List;
 
-import com.tfunk116.SinglePlayer.Game.Action.Action;
-import com.tfunk116.SinglePlayer.Game.Player.Player;
+import com.tfunk116.Game.Action.Action;
+import com.tfunk116.Game.Player.Player;
 
-public abstract class GameState<A extends Action> implements GameStateVisitable {
-    private final Player<A> thePlayer;
+public abstract class GameState<A extends Action, G extends GameState<A, G>> {
+    private final Player<A, G> theCurrentActor;
 
-    public GameState(Player<A> aPlayer) {
-        thePlayer = aPlayer;
+    public GameState(Player<A, G> aCurrentActor) {
+        theCurrentActor = aCurrentActor;
     }
 
     public abstract List<A> getLegalActions();
 
-    public Player<A> getCurrentActor() {
-        return thePlayer;
-    }
-
     public abstract boolean isLegalAction(A aAction);
 
-    public abstract GameState<A> getSuccessor(A aAction) throws IllegalGameActionException, IllegalGameStateException;
+    public abstract G getSuccessor(A aAction)
+            throws IllegalGameActionException, IllegalGameStateException;
 
     public abstract boolean isTerminal();
 
     public abstract double getPayoff() throws IllegalGamePayoffException;
+
+    public final Player<A, G> getCurrentActor() {
+        return theCurrentActor;
+    }
 
     public static class IllegalGameStateException extends Exception {
         public IllegalGameStateException(Class<?> aClass) {

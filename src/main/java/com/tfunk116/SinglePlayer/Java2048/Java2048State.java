@@ -4,18 +4,18 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tfunk116.SinglePlayer.Game.GameState.GameState;
-import com.tfunk116.SinglePlayer.Game.Player.Player;
-import com.tfunk116.SinglePlayer.Game.Visitors.GameStateVisitor;
+import com.tfunk116.Game.Player.Player;
+import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;
+import com.tfunk116.SinglePlayer.Game.Visitors.SinglePlayerGameStateVisitor;
 
-public class Java2048State extends GameState<Java2048Action> {
+public class Java2048State extends SinglePlayerGameState<Java2048Action> {
     private final static int EMPTY = 0;
     private final static int BOARD_SIZE = 4;
 
     private int theScore;
     private final int[][] theBoard;
 
-    public Java2048State(Player<Java2048Action> aPlayer) {
+    public Java2048State(Player<Java2048Action, SinglePlayerGameState<Java2048Action>> aPlayer) {
         super(aPlayer);
 
         theScore = 0;
@@ -33,10 +33,15 @@ public class Java2048State extends GameState<Java2048Action> {
         theBoard[myStartR2][myStartC2] = 2;
     }
 
-    private Java2048State(Player<Java2048Action> aPlayer, int aScore, int[][] aBoard) {
+    private Java2048State(Player<Java2048Action, SinglePlayerGameState<Java2048Action>> aPlayer, int aScore,
+            int[][] aBoard) {
         super(aPlayer);
         theScore = aScore;
         theBoard = aBoard;
+    }
+
+    public int[][] getBoard() {
+        return theBoard;
     }
 
     @Override
@@ -108,12 +113,8 @@ public class Java2048State extends GameState<Java2048Action> {
         return theScore;
     }
 
-    public int[][] getBoard() {
-        return theBoard;
-    }
-
     @Override
-    public <T> T accept(GameStateVisitor<T> aVisitor) {
+    public <T> T accept(SinglePlayerGameStateVisitor<T> aVisitor) {
         return aVisitor.visit(this);
     }
 

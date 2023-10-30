@@ -1,8 +1,8 @@
 package com.tfunk116.SinglePlayer.Game.Heuristic;
 
-import com.tfunk116.SinglePlayer.Game.Action.Action;
-import com.tfunk116.SinglePlayer.Game.GameState.GameState;
+import com.tfunk116.Game.Action.Action;
+import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;
 
 public interface Heuristic<A extends Action> {
-    double evaluate(GameState<A> aState);
+    double evaluate(SinglePlayerGameState<A> aState);
 }

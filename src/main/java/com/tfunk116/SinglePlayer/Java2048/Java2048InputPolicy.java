@@ -2,13 +2,13 @@ package com.tfunk116.SinglePlayer.Java2048;
 
 import java.util.Scanner;
 
-import com.tfunk116.SinglePlayer.Game.GameState.GameState;
-import com.tfunk116.SinglePlayer.Game.Policy.Policy;
-import com.tfunk116.SinglePlayer.Game.Visitors.InputStringVisitor;
+import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;
+import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerPolicy;
+import com.tfunk116.SinglePlayer.Game.Visitors.SinglePlayerInputStringVisitor;
 
-public class Java2048InputPolicy implements Policy<Java2048Action> {
-    private static Java2048Action promptJava2048Action(GameState<Java2048Action> aState, Scanner aScanner) {
-        System.out.println(aState.accept(InputStringVisitor.INSTANCE));
+public class Java2048InputPolicy implements SinglePlayerPolicy<Java2048Action> {
+    private static Java2048Action promptJava2048Action(SinglePlayerGameState<Java2048Action> aState, Scanner aScanner) {
+        System.out.println(aState.accept(SinglePlayerInputStringVisitor.INSTANCE));
 
         System.out.print("Input w/a/s/d: ");
         String myInput = aScanner.nextLine();
@@ -28,7 +28,7 @@ public class Java2048InputPolicy implements Policy<Java2048Action> {
     }
 
     @Override
-    public Java2048Action selectAction(GameState<Java2048Action> aState) {
+    public Java2048Action selectAction(SinglePlayerGameState<Java2048Action> aState) {
         Scanner myScanner = new Scanner(System.in);
         Java2048Action myAction;
         do {

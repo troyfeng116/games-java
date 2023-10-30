@@ -3,10 +3,10 @@ package com.tfunk116.TwoPlayer.Game.Visitors;
 import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeCell;
 import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeState;
 
-public enum InputStringVisitor implements GameStateVisitor<String> {
+public enum TwoPlayerInputStringVisitor implements TwoPlayerGameStateVisitor<String> {
     INSTANCE;
 
-    private InputStringVisitor() {
+    private TwoPlayerInputStringVisitor() {
     };
 
     @Override
