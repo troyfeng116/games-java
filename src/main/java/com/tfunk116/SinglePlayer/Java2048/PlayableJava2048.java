@@ -1,9 +1,9 @@
 package com.tfunk116.SinglePlayer.Java2048;
 
-import com.tfunk116.SinglePlayer.Game.SinglePlayerPlayableGame;
+import com.tfunk116.SinglePlayer.Game.SinglePlayerPlayable;
 import com.tfunk116.SinglePlayer.Game.Player.SinglePlayerImpl;
 
-public class PlayableJava2048 extends SinglePlayerPlayableGame<Java2048Action> {
+public class PlayableJava2048 extends SinglePlayerPlayable<Java2048Action> {
     public PlayableJava2048(SinglePlayerImpl<Java2048Action> aPlayer) {
         super(aPlayer);
     }

@@ -19,10 +19,10 @@ import com.tfunk116.SinglePlayer.Game.Visitors.SinglePlayerGameReportVisitor;
  * - policy takes state and returns action
  */
 
-public abstract class SinglePlayerPlayableGame<A extends Action> implements PlayableGame<A, SinglePlayerGameState<A>> {
+public abstract class SinglePlayerPlayable<A extends Action> implements PlayableGame<A, SinglePlayerGameState<A>> {
     private final Player<A, SinglePlayerGameState<A>> thePlayer;
 
-    public SinglePlayerPlayableGame(Player<A, SinglePlayerGameState<A>> aPlayer) {
+    public SinglePlayerPlayable(Player<A, SinglePlayerGameState<A>> aPlayer) {
         thePlayer = aPlayer;
     }
 
