@@ -1,15 +1,14 @@
-package com.tfunk116.TwoPlayer.TicTacToe;
+package com.tfunk116.TwoPlayer.Game.Policy;
 
 import java.util.List;
 
-import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
+import com.tfunk116.Game.Action.Action;
 import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
 import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
 import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
-import com.tfunk116.TwoPlayer.Game.Policy.TwoPlayerPolicy;
+import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
 
-public class TicTacToeMinimaxPolicy implements TwoPlayerPolicy<TicTacToeAction> {
-
+public class TwoPlayerMinimaxPolicy<A extends Action> implements TwoPlayerPolicy<A> {
     /**
      * Search game state tree to find max guaranteed (min) P1 points for max player,
      * or min guaranteed (max) P1 points for min player.
@@ -20,37 +19,37 @@ public class TicTacToeMinimaxPolicy implements TwoPlayerPolicy<TicTacToeAction> 
      * @throws IllegalGameStateException
      * @throws IllegalGameActionException
      */
-    private double minimax(TwoPlayerGameState<TicTacToeAction> aState)
+    private double minimax(TwoPlayerGameState<A> aState)
             throws IllegalGamePayoffException, IllegalGameActionException, IllegalGameStateException {
         if (aState.isTerminal()) {
             return aState.getMaxPlayerPayoff();
         }
 
-        List<TicTacToeAction> myActions = aState.getLegalActions();
+        List<A> myActions = aState.getLegalActions();
         if (aState.isMaxPlayerTurn()) {
             double myMaxPayoff = Double.MIN_VALUE;
-            for (TicTacToeAction myAction : myActions) {
+            for (A myAction : myActions) {
                 myMaxPayoff = Math.max(myMaxPayoff, minimax(aState.getSuccessor(myAction)));
             }
             return myMaxPayoff;
         }
 
         double myMinPayoff = Double.MAX_VALUE;
-        for (TicTacToeAction myAction : myActions) {
+        for (A myAction : myActions) {
             myMinPayoff = Math.min(myMinPayoff, minimax(aState.getSuccessor(myAction)));
         }
         return myMinPayoff;
     }
 
     @Override
-    public TicTacToeAction selectAction(TwoPlayerGameState<TicTacToeAction> aState) {
+    public A selectAction(TwoPlayerGameState<A> aState) {
         try {
-            List<TicTacToeAction> myActions = aState.getLegalActions();
-            TicTacToeAction myBestAction = TicTacToeRandomPolicy.INSTANCE.selectAction(aState);
+            List<A> myActions = aState.getLegalActions();
+            A myBestAction = null;
 
             if (aState.isMaxPlayerTurn()) {
                 double myMaxPayoff = Double.MIN_VALUE;
-                for (TicTacToeAction myAction : myActions) {
+                for (A myAction : myActions) {
                     double mySearchRes = minimax(aState.getSuccessor(myAction));
                     if (mySearchRes > myMaxPayoff) {
                         myMaxPayoff = mySearchRes;
@@ -61,7 +60,7 @@ public class TicTacToeMinimaxPolicy implements TwoPlayerPolicy<TicTacToeAction> 
             }
 
             double myMinPayoff = Double.MAX_VALUE;
-            for (TicTacToeAction myAction : myActions) {
+            for (A myAction : myActions) {
                 double mySearchRes = minimax(aState.getSuccessor(myAction));
                 if (mySearchRes < myMinPayoff) {
                     myMinPayoff = mySearchRes;
@@ -70,7 +69,7 @@ public class TicTacToeMinimaxPolicy implements TwoPlayerPolicy<TicTacToeAction> 
             }
             return myBestAction;
         } catch (Exception e) {
-            return TicTacToeRandomPolicy.INSTANCE.selectAction(aState);
+            return null;
         }
     }
 }
