@@ -1,14 +1,16 @@
 package com.tfunk116.SinglePlayer.Java2048;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.tfunk116.Game.Player.Player;
 import com.tfunk116.Game.Visitors.GameStateVisitor;
 import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;
+import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerStochasticGame;
 
-public class Java2048State extends SinglePlayerGameState<Java2048Action> {
+public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
     private final static int EMPTY = 0;
     private final static int BOARD_SIZE = 4;
 
@@ -41,7 +43,7 @@ public class Java2048State extends SinglePlayerGameState<Java2048Action> {
     }
 
     public int[][] getBoard() {
-        return theBoard;
+        return copyBoard();
     }
 
     @Override
@@ -78,21 +80,22 @@ public class Java2048State extends SinglePlayerGameState<Java2048Action> {
     }
 
     @Override
-    public Java2048State getSuccessor(Java2048Action aMove) {
-        if (!isLegalAction(aMove)) {
-            return null;
+    public List<SinglePlayerGameState<Java2048Action>> getSuccessors(Java2048Action aAction)
+            throws IllegalGameActionException, IllegalGameStateException {
+        if (!isLegalAction(aAction)) {
+            throw new IllegalGameActionException(getClass());
         }
 
         int myDScore = 0;
-        if (aMove == Java2048Action.DOWN || aMove == Java2048Action.UP) {
-            boolean myShouldReverse = aMove == Java2048Action.DOWN;
+        if (aAction == Java2048Action.DOWN || aAction == Java2048Action.UP) {
+            boolean myShouldReverse = aAction == Java2048Action.DOWN;
             for (int myC = 0; myC < BOARD_SIZE; myC++) {
                 int[] myCol = extractCol(myC, myShouldReverse);
                 myDScore += siftDimension(myCol);
                 writeToCol(myC, myCol, myShouldReverse);
             }
         } else {
-            boolean myShouldReverse = aMove == Java2048Action.RIGHT;
+            boolean myShouldReverse = aAction == Java2048Action.RIGHT;
             for (int myR = 0; myR < BOARD_SIZE; myR++) {
                 int[] myRow = extractRow(myR, myShouldReverse);
                 myDScore += siftDimension(myRow);
@@ -100,12 +103,16 @@ public class Java2048State extends SinglePlayerGameState<Java2048Action> {
             }
         }
 
+        final int myFinalDScore = myDScore;
         List<SimpleEntry<Integer, Integer>> myEmptyTiles = getEmptyTiles();
-        SimpleEntry<Integer, Integer> myRandomEmptyTile = myEmptyTiles.get(getRandomIdx(myEmptyTiles.size()));
-        theBoard[myRandomEmptyTile.getKey()][myRandomEmptyTile.getValue()] = getNewSquareValue();
-
-        theScore += myDScore;
-        return new Java2048State(getCurrentActor(), theScore, theBoard);
+        return myEmptyTiles.stream()
+                .map(aEmptyTile -> {
+                    int[][] myNewBoard = copyBoard();
+                    myNewBoard[aEmptyTile.getKey()][aEmptyTile.getValue()] = getNewSquareValue();
+                    return myNewBoard;
+                })
+                .map(aBoard -> new Java2048State(getCurrentActor(), theScore + myFinalDScore, aBoard))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -202,5 +209,15 @@ public class Java2048State extends SinglePlayerGameState<Java2048Action> {
             }
         }
         return myEmptyTiles;
+    }
+
+    private int[][] copyBoard() {
+        int[][] myBoardCopy = new int[BOARD_SIZE][BOARD_SIZE];
+        for (int myR = 0; myR < BOARD_SIZE; myR++) {
+            for (int myC = 0; myC < BOARD_SIZE; myC++) {
+                myBoardCopy[myR][myC] = theBoard[myR][myC];
+            }
+        }
+        return myBoardCopy;
     }
 }

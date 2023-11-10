@@ -8,6 +8,7 @@ import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Playable.PlayableGame;
 import com.tfunk116.Game.Player.Player;
 import com.tfunk116.Game.Visitors.GameReportVisitor;
+import com.tfunk116.Game.Visitors.GameStateDumpVisitor;
 
 /*
  * Game.init()
@@ -40,6 +41,7 @@ public abstract class SinglePlayerPlayable<A extends Action> implements Playable
             myCurState = myCurState.getSuccessor(mySelectedAction);
         }
 
+        System.out.println(myCurState.accept(GameStateDumpVisitor.INSTANCE));
         System.out.println(myCurState.accept(GameReportVisitor.INSTANCE));
         return myCurState.getPayoff();
     }
