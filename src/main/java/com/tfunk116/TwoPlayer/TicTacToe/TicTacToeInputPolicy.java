@@ -2,13 +2,13 @@ package com.tfunk116.TwoPlayer.TicTacToe;
 
 import java.util.Scanner;
 
+import com.tfunk116.Game.Visitors.GameStateDumpVisitor;
 import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
 import com.tfunk116.TwoPlayer.Game.Policy.TwoPlayerPolicy;
-import com.tfunk116.TwoPlayer.Game.Visitors.TwoPlayerInputStringVisitor;
 
 public class TicTacToeInputPolicy implements TwoPlayerPolicy<TicTacToeAction> {
     private static TicTacToeAction promptTicTacToeAction(TwoPlayerGameState<TicTacToeAction> aState, Scanner aScanner) {
-        System.out.println(aState.accept(TwoPlayerInputStringVisitor.INSTANCE));
+        System.out.println(aState.accept(GameStateDumpVisitor.INSTANCE));
 
         System.out.print("Input row: ");
         int myRow = aScanner.nextInt();

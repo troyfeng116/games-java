@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;
 import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerPolicy;
-import com.tfunk116.SinglePlayer.Game.Visitors.SinglePlayerInputStringVisitor;
+import com.tfunk116.Game.Visitors.GameStateDumpVisitor;
 
 public class Java2048InputPolicy implements SinglePlayerPolicy<Java2048Action> {
     private static Java2048Action promptJava2048Action(SinglePlayerGameState<Java2048Action> aState, Scanner aScanner) {
-        System.out.println(aState.accept(SinglePlayerInputStringVisitor.INSTANCE));
+        System.out.println(aState.accept(GameStateDumpVisitor.INSTANCE));
 
         System.out.print("Input w/a/s/d: ");
         String myInput = aScanner.nextLine();

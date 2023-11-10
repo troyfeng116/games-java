@@ -4,8 +4,7 @@ import com.tfunk116.Game.GameState.GameState;
 import com.tfunk116.Game.Player.Player;
 import com.tfunk116.Game.Action.Action;
 
-public abstract class TwoPlayerGameState<A extends Action> extends GameState<A, TwoPlayerGameState<A>>
-        implements TwoPlayerGameStateVisitable {
+public abstract class TwoPlayerGameState<A extends Action> extends GameState<A, TwoPlayerGameState<A>> {
     private final Player<A, TwoPlayerGameState<A>> theMaxPlayer;
     private final Player<A, TwoPlayerGameState<A>> theMinPlayer;
 

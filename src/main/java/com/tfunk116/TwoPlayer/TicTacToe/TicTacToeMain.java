@@ -21,7 +21,7 @@ public class TicTacToeMain {
         PlayableTicTacToe myPlayableTicTacToe = new PlayableTicTacToe(myPlayer1, myPlayer2, 3);
         // myPlayableTicTacToe.playThroughGame();
 
-        TwoPlayerGameSimulator<TicTacToeAction> mySimulator = new TwoPlayerGameSimulator<>(100, myPlayableTicTacToe);
+        TwoPlayerGameSimulator<TicTacToeAction> mySimulator = new TwoPlayerGameSimulator<>(10, myPlayableTicTacToe);
         mySimulator.runSimulations();
     }
 }

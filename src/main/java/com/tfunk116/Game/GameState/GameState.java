@@ -4,8 +4,9 @@ import java.util.List;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.Game.Player.Player;
+import com.tfunk116.Game.Visitors.GameStateVisitable;
 
-public abstract class GameState<A extends Action, G extends GameState<A, G>> {
+public abstract class GameState<A extends Action, G extends GameState<A, G>> implements GameStateVisitable {
     private final Player<A, G> theCurrentActor;
 
     public GameState(Player<A, G> aCurrentActor) {

@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.tfunk116.Game.Player.Player;
+import com.tfunk116.Game.Visitors.GameStateVisitor;
 import com.tfunk116.TwoPlayer.Game.TwoPlayerGameStatus;
 import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
-import com.tfunk116.TwoPlayer.Game.Visitors.TwoPlayerGameStateVisitor;
 
 public class TicTacToeState extends TwoPlayerGameState<TicTacToeAction> {
     private final int theBoardSize;
@@ -105,7 +105,7 @@ public class TicTacToeState extends TwoPlayerGameState<TicTacToeAction> {
     }
 
     @Override
-    public <T> T accept(TwoPlayerGameStateVisitor<T> aVisitor) {
+    public <T> T accept(GameStateVisitor<T> aVisitor) {
         return aVisitor.visit(this);
     }
 

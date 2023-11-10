@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tfunk116.Game.Player.Player;
+import com.tfunk116.Game.Visitors.GameStateVisitor;
 import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;
-import com.tfunk116.SinglePlayer.Game.Visitors.SinglePlayerGameStateVisitor;
 
 public class Java2048State extends SinglePlayerGameState<Java2048Action> {
     private final static int EMPTY = 0;
@@ -114,7 +114,7 @@ public class Java2048State extends SinglePlayerGameState<Java2048Action> {
     }
 
     @Override
-    public <T> T accept(SinglePlayerGameStateVisitor<T> aVisitor) {
+    public <T> T accept(GameStateVisitor<T> aVisitor) {
         return aVisitor.visit(this);
     }
 
