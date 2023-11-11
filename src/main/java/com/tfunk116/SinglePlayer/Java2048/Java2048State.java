@@ -13,7 +13,7 @@ public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
     private final static int EMPTY = 0;
     private final static int BOARD_SIZE = 4;
 
-    private int theScore;
+    private final int theScore;
     private final int[][] theBoard;
 
     public Java2048State(Player<Java2048Action, SinglePlayerStochasticGame<Java2048Action>> aPlayer) {
@@ -43,6 +43,10 @@ public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
 
     public int[][] getBoard() {
         return copyBoard(theBoard);
+    }
+
+    public int getScore() {
+        return theScore;
     }
 
     @Override

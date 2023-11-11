@@ -30,8 +30,9 @@ public class SinglePlayerExpectimaxPolicy<A extends Action> implements SinglePla
 
     private SimpleEntry<A, Double> expectimax(SinglePlayerStochasticGame<A> aState, int aDepth)
             throws IllegalGamePayoffException, IllegalGameActionException, IllegalGameStateException {
-        if (aState.isTerminal()) {
-            return new SimpleEntry<>(null, -10000.0);
+        if (aState.isTerminal() || aDepth >= theMaxDepth) {
+            // return new SimpleEntry<>(null, -10000.0);
+            return new SimpleEntry<>(null, aState.accept(theHeuristic));
         }
 
         if (aDepth >= theMaxDepth) {

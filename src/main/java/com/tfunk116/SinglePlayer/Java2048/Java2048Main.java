@@ -8,11 +8,14 @@ import com.tfunk116.SinglePlayer.Game.SinglePlayerStochasticGameSimulator;
 import com.tfunk116.SinglePlayer.Game.Player.SinglePlayerStochasticImpl;
 import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerExpectimaxPolicy;
 import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerStochasticPolicy;
+import com.tfunk116.SinglePlayer.Java2048.Heuristics.Java2048CornerHeuristic;
+import com.tfunk116.SinglePlayer.Java2048.Heuristics.Java2048WeightHeuristic;
 
 public class Java2048Main {
     public static void main(String[] args)
             throws IllegalGameStateException, IllegalGameActionException, IllegalGamePayoffException {
-        Heuristic myHeuristic = new Java2048CornerHeuristic();
+        // Heuristic myHeuristic = new Java2048CornerHeuristic();
+        Heuristic myHeuristic = new Java2048WeightHeuristic();
         SinglePlayerStochasticPolicy<Java2048Action> myCornerExpectimaxPolicy = new SinglePlayerExpectimaxPolicy<Java2048Action>(
                 myHeuristic, 3);
         SinglePlayerStochasticImpl<Java2048Action> myCornerExpectimaxPlayer = new SinglePlayerStochasticImpl<>(
@@ -33,7 +36,7 @@ public class Java2048Main {
 
         PlayableJava2048 myPlayableJava2048 = new PlayableJava2048(myCornerExpectimaxPlayer);
         SinglePlayerStochasticGameSimulator<Java2048Action> mySimulator = new SinglePlayerStochasticGameSimulator<>(
-                1,
+                10,
                 myPlayableJava2048);
         mySimulator.runSimulations();
     }
