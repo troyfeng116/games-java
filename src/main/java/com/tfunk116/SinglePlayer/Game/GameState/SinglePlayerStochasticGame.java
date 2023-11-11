@@ -1,6 +1,7 @@
 package com.tfunk116.SinglePlayer.Game.GameState;
 
 import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.Game.GameState.GameState;
@@ -11,14 +12,28 @@ public abstract class SinglePlayerStochasticGame<A extends Action> extends GameS
         super(aCurrentActor);
     }
 
-    public abstract List<SinglePlayerStochasticGame<A>> getSuccessors(A aAction)
+    /**
+     * Return possible distribution of stochastic successor game states.
+     *
+     * @param aAction Game action for which to retrieve successor states.
+     * @return List of successor states, with probability distributions.
+     * @throws IllegalGameActionException
+     * @throws IllegalGameStateException
+     */
+    public abstract List<SimpleEntry<? extends SinglePlayerStochasticGame<A>, Double>> getSuccessors(A aAction)
             throws IllegalGameActionException, IllegalGameStateException;
 
-    // TODO: non-uniform distribution
     @Override
     public final SinglePlayerStochasticGame<A> getSuccessor(A aAction)
             throws IllegalGameActionException, IllegalGameStateException {
-        List<SinglePlayerStochasticGame<A>> mySuccessors = getSuccessors(aAction);
-        return mySuccessors.get((int) Math.floor(Math.random() * mySuccessors.size()));
+        List<SimpleEntry<? extends SinglePlayerStochasticGame<A>, Double>> mySuccessors = getSuccessors(aAction);
+        double myRand = Math.random();
+        double myCumulativeSum = 0.0;
+        for (int myIdx = 0; myIdx < mySuccessors.size(); myIdx++) {
+            if (myCumulativeSum <= myRand && myRand < (myCumulativeSum += mySuccessors.get(myIdx).getValue())) {
+                return mySuccessors.get(myIdx).getKey();
+            }
+        }
+        return mySuccessors.get((int) Math.floor(Math.random() * mySuccessors.size())).getKey();
     }
 }

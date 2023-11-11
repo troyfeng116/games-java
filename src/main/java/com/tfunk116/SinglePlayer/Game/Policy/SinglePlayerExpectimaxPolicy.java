@@ -42,17 +42,19 @@ public class SinglePlayerExpectimaxPolicy<A extends Action> implements SinglePla
         List<A> myActions = aState.getLegalActions();
         SimpleEntry<A, Double> myBestAction = new SimpleEntry<>(null, Double.NEGATIVE_INFINITY);
         for (A myAction : myActions) {
-            List<SinglePlayerStochasticGame<A>> mySuccessors = aState.getSuccessors(myAction);
-            double myTotalPayoff = 0.0;
-            for (SinglePlayerStochasticGame<A> mySuccessor : mySuccessors) {
+            List<SimpleEntry<? extends SinglePlayerStochasticGame<A>, Double>> mySuccessors = aState
+                    .getSuccessors(myAction);
+            double myExpectedPayoff = 0.0;
+            for (SimpleEntry<? extends SinglePlayerStochasticGame<A>, Double> myEntry : mySuccessors) {
+                SinglePlayerStochasticGame<A> mySuccessor = myEntry.getKey();
+                double myProb = myEntry.getValue();
                 SimpleEntry<A, Double> myRes = expectimax(mySuccessor, aDepth + 1);
                 if (myRes.getValue() != Double.NEGATIVE_INFINITY) {
-                    myTotalPayoff += myRes.getValue();
+                    myExpectedPayoff += myRes.getValue() * myProb;
                 }
             }
-            double myExpectation = myTotalPayoff / mySuccessors.size();
-            if (myExpectation > myBestAction.getValue()) {
-                myBestAction = new SimpleEntry<>(myAction, myExpectation);
+            if (myExpectedPayoff > myBestAction.getValue()) {
+                myBestAction = new SimpleEntry<>(myAction, myExpectedPayoff);
             }
         }
 

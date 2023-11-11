@@ -3,6 +3,7 @@ package com.tfunk116.SinglePlayer.Java2048;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.tfunk116.Game.Player.Player;
@@ -10,8 +11,9 @@ import com.tfunk116.Game.Visitors.GameStateVisitor;
 import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerStochasticGame;
 
 public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
-    private final static int EMPTY = 0;
-    private final static int BOARD_SIZE = 4;
+    private static final int EMPTY = 0;
+    private static final int BOARD_SIZE = 4;
+    private static final double PROB_4 = 0.1;
 
     private final int theScore;
     private final int[][] theBoard;
@@ -83,7 +85,8 @@ public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
     }
 
     @Override
-    public List<SinglePlayerStochasticGame<Java2048Action>> getSuccessors(Java2048Action aAction)
+    public List<SimpleEntry<? extends SinglePlayerStochasticGame<Java2048Action>, Double>> getSuccessors(
+            Java2048Action aAction)
             throws IllegalGameActionException, IllegalGameStateException {
         if (!isLegalAction(aAction)) {
             throw new IllegalGameActionException(getClass());
@@ -109,14 +112,22 @@ public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
 
         final int myFinalDScore = myDScore;
         List<SimpleEntry<Integer, Integer>> myEmptyTiles = getEmptyTiles(myBoardCopy);
+        double myBaseProb = 1.0 / myEmptyTiles.size();
         return myEmptyTiles.stream()
                 .map(aEmptyTile -> {
-                    // TODO: 10% chance of 4
-                    int[][] myNewBoard = copyBoard(myBoardCopy);
-                    myNewBoard[aEmptyTile.getKey()][aEmptyTile.getValue()] = getNewSquareValue();
-                    return myNewBoard;
+                    int[][] myNewBoard2 = copyBoard(myBoardCopy);
+                    myNewBoard2[aEmptyTile.getKey()][aEmptyTile.getValue()] = 2;
+                    int[][] myNewBoard4 = copyBoard(myBoardCopy);
+                    myNewBoard4[aEmptyTile.getKey()][aEmptyTile.getValue()] = 4;
+                    return List.of(
+                            new SimpleEntry<>(
+                                    new Java2048State(getCurrentActor(), theScore + myFinalDScore, myNewBoard2),
+                                    (1 - PROB_4) * myBaseProb),
+                            new SimpleEntry<>(
+                                    new Java2048State(getCurrentActor(), theScore + myFinalDScore, myNewBoard4),
+                                    PROB_4 * myBaseProb));
                 })
-                .map(aBoard -> new Java2048State(getCurrentActor(), theScore + myFinalDScore, aBoard))
+                .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
@@ -198,10 +209,6 @@ public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
 
     private int getRandomIdx(int aLen) {
         return (int) (Math.random() * aLen);
-    }
-
-    private int getNewSquareValue() {
-        return Math.random() < 0.1 ? 4 : 2;
     }
 
     private static List<SimpleEntry<Integer, Integer>> getEmptyTiles(int[][] aBoard) {
