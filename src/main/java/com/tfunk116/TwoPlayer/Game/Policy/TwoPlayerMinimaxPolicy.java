@@ -9,6 +9,39 @@ import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
 
 public class TwoPlayerMinimaxPolicy<A extends Action> implements TwoPlayerPolicy<A> {
+    @Override
+    public A selectAction(TwoPlayerGameState<A> aState) {
+        // TODO: have minimax return pair?
+        try {
+            List<A> myActions = aState.getLegalActions();
+            A myBestAction = null;
+
+            if (aState.isMaxPlayerTurn()) {
+                double myMaxPayoff = Double.MIN_VALUE;
+                for (A myAction : myActions) {
+                    double mySearchRes = minimax(aState.getSuccessor(myAction));
+                    if (mySearchRes > myMaxPayoff) {
+                        myMaxPayoff = mySearchRes;
+                        myBestAction = myAction;
+                    }
+                }
+                return myBestAction;
+            }
+
+            double myMinPayoff = Double.MAX_VALUE;
+            for (A myAction : myActions) {
+                double mySearchRes = minimax(aState.getSuccessor(myAction));
+                if (mySearchRes < myMinPayoff) {
+                    myMinPayoff = mySearchRes;
+                    myBestAction = myAction;
+                }
+            }
+            return myBestAction;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     /**
      * Search game state tree to find max guaranteed (min) P1 points for max player,
      * or min guaranteed (max) P1 points for min player.
@@ -39,37 +72,5 @@ public class TwoPlayerMinimaxPolicy<A extends Action> implements TwoPlayerPolicy
             myMinPayoff = Math.min(myMinPayoff, minimax(aState.getSuccessor(myAction)));
         }
         return myMinPayoff;
-    }
-
-    @Override
-    public A selectAction(TwoPlayerGameState<A> aState) {
-        try {
-            List<A> myActions = aState.getLegalActions();
-            A myBestAction = null;
-
-            if (aState.isMaxPlayerTurn()) {
-                double myMaxPayoff = Double.MIN_VALUE;
-                for (A myAction : myActions) {
-                    double mySearchRes = minimax(aState.getSuccessor(myAction));
-                    if (mySearchRes > myMaxPayoff) {
-                        myMaxPayoff = mySearchRes;
-                        myBestAction = myAction;
-                    }
-                }
-                return myBestAction;
-            }
-
-            double myMinPayoff = Double.MAX_VALUE;
-            for (A myAction : myActions) {
-                double mySearchRes = minimax(aState.getSuccessor(myAction));
-                if (mySearchRes < myMinPayoff) {
-                    myMinPayoff = mySearchRes;
-                    myBestAction = myAction;
-                }
-            }
-            return myBestAction;
-        } catch (Exception e) {
-            return null;
-        }
     }
 }

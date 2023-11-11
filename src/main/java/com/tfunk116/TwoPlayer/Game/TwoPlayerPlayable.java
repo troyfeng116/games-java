@@ -2,12 +2,8 @@ package com.tfunk116.TwoPlayer.Game;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
-import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
-import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
-import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Playable.PlayableGame;
 import com.tfunk116.Game.Player.Player;
-import com.tfunk116.Game.Visitors.GameReportVisitor;
 
 /*
  * Game.init()
@@ -35,19 +31,5 @@ public abstract class TwoPlayerPlayable<A extends Action> implements PlayableGam
 
     public Player<A, TwoPlayerGameState<A>> getMinPlayer() {
         return theMinPlayer;
-    }
-
-    @Override
-    public double playThroughGame()
-            throws IllegalGameStateException, IllegalGameActionException, IllegalGamePayoffException {
-        TwoPlayerGameState<A> myCurState = getInitialState();
-        while (!myCurState.isTerminal()) {
-            Player<A, TwoPlayerGameState<A>> myCurPlayer = myCurState.getCurrentActor();
-            A mySelectedAction = myCurPlayer.selectAction(myCurState);
-            myCurState = myCurState.getSuccessor(mySelectedAction);
-        }
-
-        System.out.println(myCurState.accept(GameReportVisitor.INSTANCE));
-        return myCurState.getMaxPlayerPayoff();
     }
 }
