@@ -1,7 +1,7 @@
-package com.tfunk116.SinglePlayer.Java2048.Heuristics;
+package com.tfunk116.SingleStochastic.Java2048.Heuristics;
 
 import com.tfunk116.Game.Heuristic.Heuristic;
-import com.tfunk116.SinglePlayer.Java2048.Java2048State;
+import com.tfunk116.SingleStochastic.Java2048.Java2048State;
 
 /**
  * @see https://cs229.stanford.edu/proj2016/report/NieHouAn-AIPlays2048-report.pdf

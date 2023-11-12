@@ -1,4 +1,4 @@
-package com.tfunk116.SinglePlayer.Java2048;
+package com.tfunk116.SingleStochastic.Java2048;
 
 import com.tfunk116.Game.Action.Action;
 

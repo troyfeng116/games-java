@@ -1,4 +1,4 @@
-package com.tfunk116.SinglePlayer.Game.Policy;
+package com.tfunk116.SingleStochastic.Game.Policy;
 
 import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
@@ -8,19 +8,19 @@ import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
 import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
 import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Heuristic.Heuristic;
-import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerStochasticGame;
+import com.tfunk116.SingleStochastic.Game.GameState.SingleStochasticGameState;
 
-public class SinglePlayerExpectimaxPolicy<A extends Action> implements SinglePlayerStochasticPolicy<A> {
+public class ExpectimaxPolicy<A extends Action> implements SingleStochasticPolicy<A> {
     private final Heuristic theHeuristic;
     private final int theMaxDepth;
 
-    public SinglePlayerExpectimaxPolicy(Heuristic aHeuristic, int aMaxDepth) {
+    public ExpectimaxPolicy(Heuristic aHeuristic, int aMaxDepth) {
         theHeuristic = aHeuristic;
         theMaxDepth = aMaxDepth;
     }
 
     @Override
-    public A selectAction(SinglePlayerStochasticGame<A> aState) {
+    public A selectAction(SingleStochasticGameState<A> aState) {
         try {
             return expectimax(aState, 0).getKey();
         } catch (Exception e) {
@@ -28,7 +28,7 @@ public class SinglePlayerExpectimaxPolicy<A extends Action> implements SinglePla
         }
     }
 
-    private SimpleEntry<A, Double> expectimax(SinglePlayerStochasticGame<A> aState, int aDepth)
+    private SimpleEntry<A, Double> expectimax(SingleStochasticGameState<A> aState, int aDepth)
             throws IllegalGamePayoffException, IllegalGameActionException, IllegalGameStateException {
         if (aState.isTerminal() || aDepth >= theMaxDepth) {
             // return new SimpleEntry<>(null, -10000.0);
@@ -42,11 +42,11 @@ public class SinglePlayerExpectimaxPolicy<A extends Action> implements SinglePla
         List<A> myActions = aState.getLegalActions();
         SimpleEntry<A, Double> myBestAction = new SimpleEntry<>(null, Double.NEGATIVE_INFINITY);
         for (A myAction : myActions) {
-            List<SimpleEntry<? extends SinglePlayerStochasticGame<A>, Double>> mySuccessors = aState
+            List<SimpleEntry<? extends SingleStochasticGameState<A>, Double>> mySuccessors = aState
                     .getSuccessors(myAction);
             double myExpectedPayoff = 0.0;
-            for (SimpleEntry<? extends SinglePlayerStochasticGame<A>, Double> myEntry : mySuccessors) {
-                SinglePlayerStochasticGame<A> mySuccessor = myEntry.getKey();
+            for (SimpleEntry<? extends SingleStochasticGameState<A>, Double> myEntry : mySuccessors) {
+                SingleStochasticGameState<A> mySuccessor = myEntry.getKey();
                 double myProb = myEntry.getValue();
                 SimpleEntry<A, Double> myRes = expectimax(mySuccessor, aDepth + 1);
                 if (myRes.getValue() != Double.NEGATIVE_INFINITY) {

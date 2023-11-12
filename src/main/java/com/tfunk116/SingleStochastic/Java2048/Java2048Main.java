@@ -1,24 +1,24 @@
-package com.tfunk116.SinglePlayer.Java2048;
+package com.tfunk116.SingleStochastic.Java2048;
 
 import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
 import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
 import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Heuristic.Heuristic;
-import com.tfunk116.SinglePlayer.Game.SinglePlayerStochasticGameSimulator;
-import com.tfunk116.SinglePlayer.Game.Player.SinglePlayerStochasticImpl;
-import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerExpectimaxPolicy;
-import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerStochasticPolicy;
-import com.tfunk116.SinglePlayer.Java2048.Heuristics.Java2048CornerHeuristic;
-import com.tfunk116.SinglePlayer.Java2048.Heuristics.Java2048WeightHeuristic;
+import com.tfunk116.SingleStochastic.Game.SingleStochasticGameSimulator;
+import com.tfunk116.SingleStochastic.Game.Player.SingleStochasticPlayerImpl;
+import com.tfunk116.SingleStochastic.Game.Policy.ExpectimaxPolicy;
+import com.tfunk116.SingleStochastic.Game.Policy.SingleStochasticPolicy;
+import com.tfunk116.SingleStochastic.Java2048.Heuristics.Java2048CornerHeuristic;
+import com.tfunk116.SingleStochastic.Java2048.Heuristics.Java2048WeightHeuristic;
 
 public class Java2048Main {
     public static void main(String[] args)
             throws IllegalGameStateException, IllegalGameActionException, IllegalGamePayoffException {
         // Heuristic myHeuristic = new Java2048CornerHeuristic();
         Heuristic myHeuristic = new Java2048WeightHeuristic();
-        SinglePlayerStochasticPolicy<Java2048Action> myCornerExpectimaxPolicy = new SinglePlayerExpectimaxPolicy<Java2048Action>(
+        SingleStochasticPolicy<Java2048Action> myCornerExpectimaxPolicy = new ExpectimaxPolicy<Java2048Action>(
                 myHeuristic, 3);
-        SinglePlayerStochasticImpl<Java2048Action> myCornerExpectimaxPlayer = new SinglePlayerStochasticImpl<>(
+        SingleStochasticPlayerImpl<Java2048Action> myCornerExpectimaxPlayer = new SingleStochasticPlayerImpl<>(
                 "troy",
                 myCornerExpectimaxPolicy);
 
@@ -35,7 +35,7 @@ public class Java2048Main {
         // myInputPolicy);
 
         PlayableJava2048 myPlayableJava2048 = new PlayableJava2048(myCornerExpectimaxPlayer);
-        SinglePlayerStochasticGameSimulator<Java2048Action> mySimulator = new SinglePlayerStochasticGameSimulator<>(
+        SingleStochasticGameSimulator<Java2048Action> mySimulator = new SingleStochasticGameSimulator<>(
                 3,
                 myPlayableJava2048);
         mySimulator.runSimulations();

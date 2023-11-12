@@ -1,7 +1,7 @@
 package com.tfunk116.Game.Heuristic;
 
 import com.tfunk116.Game.Visitors.GameStateVisitor;
-import com.tfunk116.SinglePlayer.Java2048.Java2048State;
+import com.tfunk116.SingleStochastic.Java2048.Java2048State;
 import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeState;
 
 public interface Heuristic extends GameStateVisitor<Double> {

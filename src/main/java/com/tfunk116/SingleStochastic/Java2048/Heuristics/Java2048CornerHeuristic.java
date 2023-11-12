@@ -1,11 +1,11 @@
-package com.tfunk116.SinglePlayer.Java2048.Heuristics;
+package com.tfunk116.SingleStochastic.Java2048.Heuristics;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.tfunk116.Game.Heuristic.Heuristic;
-import com.tfunk116.SinglePlayer.Java2048.Java2048Action;
-import com.tfunk116.SinglePlayer.Java2048.Java2048State;
+import com.tfunk116.SingleStochastic.Java2048.Java2048Action;
+import com.tfunk116.SingleStochastic.Java2048.Java2048State;
 
 public class Java2048CornerHeuristic implements Heuristic {
     @Override

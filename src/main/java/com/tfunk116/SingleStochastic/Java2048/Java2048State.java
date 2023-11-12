@@ -1,4 +1,4 @@
-package com.tfunk116.SinglePlayer.Java2048;
+package com.tfunk116.SingleStochastic.Java2048;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.stream.Collectors;
@@ -8,9 +8,9 @@ import java.util.List;
 
 import com.tfunk116.Game.Player.Player;
 import com.tfunk116.Game.Visitors.GameStateVisitor;
-import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerStochasticGame;
+import com.tfunk116.SingleStochastic.Game.GameState.SingleStochasticGameState;
 
-public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
+public class Java2048State extends SingleStochasticGameState<Java2048Action> {
     private static final int EMPTY = 0;
     private static final int BOARD_SIZE = 4;
     private static final double PROB_4 = 0.1;
@@ -18,7 +18,7 @@ public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
     private final int theScore;
     private final int[][] theBoard;
 
-    public Java2048State(Player<Java2048Action, SinglePlayerStochasticGame<Java2048Action>> aPlayer) {
+    public Java2048State(Player<Java2048Action, SingleStochasticGameState<Java2048Action>> aPlayer) {
         super(aPlayer);
 
         theScore = 0;
@@ -36,7 +36,7 @@ public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
         theBoard[myStartR2][myStartC2] = 2;
     }
 
-    private Java2048State(Player<Java2048Action, SinglePlayerStochasticGame<Java2048Action>> aPlayer, int aScore,
+    private Java2048State(Player<Java2048Action, SingleStochasticGameState<Java2048Action>> aPlayer, int aScore,
             int[][] aBoard) {
         super(aPlayer);
         theScore = aScore;
@@ -85,7 +85,7 @@ public class Java2048State extends SinglePlayerStochasticGame<Java2048Action> {
     }
 
     @Override
-    public List<SimpleEntry<? extends SinglePlayerStochasticGame<Java2048Action>, Double>> getSuccessors(
+    public List<SimpleEntry<? extends SingleStochasticGameState<Java2048Action>, Double>> getSuccessors(
             Java2048Action aAction)
             throws IllegalGameActionException, IllegalGameStateException {
         if (!isLegalAction(aAction)) {

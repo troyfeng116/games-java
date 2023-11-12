@@ -16,7 +16,6 @@ public interface PlayableGame<A extends Action, G extends GameState<A, G>> {
             throws IllegalGameStateException, IllegalGameActionException, IllegalGamePayoffException {
         G myCurState = getInitialState();
         while (!myCurState.isTerminal()) {
-            System.out.println(myCurState.accept(GameStateDumpVisitor.INSTANCE));
             Player<A, G> myCurPlayer = myCurState.getCurrentActor();
             A mySelectedAction = myCurPlayer.selectAction(myCurState);
             myCurState = myCurState.getSuccessor(mySelectedAction);

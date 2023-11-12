@@ -2,7 +2,7 @@ package com.tfunk116.Game.Visitors;
 
 import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
 import com.tfunk116.Game.Player.Player;
-import com.tfunk116.SinglePlayer.Java2048.Java2048State;
+import com.tfunk116.SingleStochastic.Java2048.Java2048State;
 import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
 import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeAction;
 import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeState;

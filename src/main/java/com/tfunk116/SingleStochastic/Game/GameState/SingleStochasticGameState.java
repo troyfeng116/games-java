@@ -1,4 +1,4 @@
-package com.tfunk116.SinglePlayer.Game.GameState;
+package com.tfunk116.SingleStochastic.Game.GameState;
 
 import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
@@ -7,8 +7,8 @@ import com.tfunk116.Game.Action.Action;
 import com.tfunk116.Game.GameState.GameState;
 import com.tfunk116.Game.Player.Player;
 
-public abstract class SinglePlayerStochasticGame<A extends Action> extends GameState<A, SinglePlayerStochasticGame<A>> {
-    public SinglePlayerStochasticGame(Player<A, SinglePlayerStochasticGame<A>> aCurrentActor) {
+public abstract class SingleStochasticGameState<A extends Action> extends GameState<A, SingleStochasticGameState<A>> {
+    public SingleStochasticGameState(Player<A, SingleStochasticGameState<A>> aCurrentActor) {
         super(aCurrentActor);
     }
 
@@ -20,13 +20,13 @@ public abstract class SinglePlayerStochasticGame<A extends Action> extends GameS
      * @throws IllegalGameActionException
      * @throws IllegalGameStateException
      */
-    public abstract List<SimpleEntry<? extends SinglePlayerStochasticGame<A>, Double>> getSuccessors(A aAction)
+    public abstract List<SimpleEntry<? extends SingleStochasticGameState<A>, Double>> getSuccessors(A aAction)
             throws IllegalGameActionException, IllegalGameStateException;
 
     @Override
-    public final SinglePlayerStochasticGame<A> getSuccessor(A aAction)
+    public final SingleStochasticGameState<A> getSuccessor(A aAction)
             throws IllegalGameActionException, IllegalGameStateException {
-        List<SimpleEntry<? extends SinglePlayerStochasticGame<A>, Double>> mySuccessors = getSuccessors(aAction);
+        List<SimpleEntry<? extends SingleStochasticGameState<A>, Double>> mySuccessors = getSuccessors(aAction);
         double myRand = Math.random();
         double myCumulativeSum = 0.0;
         for (int myIdx = 0; myIdx < mySuccessors.size(); myIdx++) {
