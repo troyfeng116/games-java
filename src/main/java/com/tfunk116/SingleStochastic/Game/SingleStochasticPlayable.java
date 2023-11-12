@@ -1,8 +1,9 @@
-package com.tfunk116.SingleStochastic.Game.GameState;
+package com.tfunk116.SingleStochastic.Game;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.Game.Playable.PlayableGame;
 import com.tfunk116.Game.Player.Player;
+import com.tfunk116.SingleStochastic.Game.GameState.SingleStochasticGameState;
 
 public abstract class SingleStochasticPlayable<A extends Action>
         implements PlayableGame<A, SingleStochasticGameState<A>> {

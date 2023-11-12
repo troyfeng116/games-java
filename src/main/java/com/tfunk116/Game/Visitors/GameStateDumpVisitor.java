@@ -1,5 +1,8 @@
 package com.tfunk116.Game.Visitors;
 
+import java.util.Arrays;
+
+import com.tfunk116.SinglePlayer.EightPuzzle.EightPuzzleState;
 import com.tfunk116.SingleStochastic.Java2048.Java2048State;
 import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeCell;
 import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeState;
@@ -9,6 +12,12 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
 
     private GameStateDumpVisitor() {
     };
+
+    @Override
+    public String visit(EightPuzzleState aState) {
+        return String.format("=========\n%s\n\nmoves taken: %d\n", Arrays.toString(aState.getBoard()),
+                aState.getMovesTaken());
+    }
 
     @Override
     public String visit(TicTacToeState aState) {

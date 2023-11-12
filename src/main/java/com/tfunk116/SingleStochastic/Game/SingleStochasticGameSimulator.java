@@ -7,7 +7,6 @@ import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Simulator.PlayerSimStatistics;
 import com.tfunk116.Game.Simulator.Simulator;
 import com.tfunk116.SingleStochastic.Game.GameState.SingleStochasticGameState;
-import com.tfunk116.SingleStochastic.Game.GameState.SingleStochasticPlayable;
 
 // TODO: how to share this with SinglePlayerGameSimulator
 public class SingleStochasticGameSimulator<A extends Action>
