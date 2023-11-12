@@ -1,4 +1,4 @@
-package com.tfunk116.TwoPlayer.Game;
+package com.tfunk116.TwoPlayer.Game.Simulator;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
@@ -7,6 +7,7 @@ import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Simulator.PlayerSimStatistics;
 import com.tfunk116.Game.Simulator.Simulator;
 import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
+import com.tfunk116.TwoPlayer.Game.Playable.TwoPlayerPlayable;
 
 public class TwoPlayerGameSimulator<A extends Action>
         extends Simulator<A, TwoPlayerGameState<A>, TwoPlayerPlayable<A>> {

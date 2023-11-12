@@ -1,4 +1,4 @@
-package com.tfunk116.SingleStochastic.Game;
+package com.tfunk116.SinglePlayer.Game.Simulator;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
@@ -6,14 +6,14 @@ import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
 import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Simulator.PlayerSimStatistics;
 import com.tfunk116.Game.Simulator.Simulator;
-import com.tfunk116.SingleStochastic.Game.GameState.SingleStochasticGameState;
+import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;
+import com.tfunk116.SinglePlayer.Game.Playable.SinglePlayerPlayable;
 
-// TODO: how to share this with SinglePlayerGameSimulator
-public class SingleStochasticGameSimulator<A extends Action>
-        extends Simulator<A, SingleStochasticGameState<A>, SingleStochasticPlayable<A>> {
+public class SinglePlayerGameSimulator<A extends Action>
+        extends Simulator<A, SinglePlayerGameState<A>, SinglePlayerPlayable<A>> {
     private final PlayerSimStatistics theSimStatistics;
 
-    public SingleStochasticGameSimulator(int aNumSimulations, SingleStochasticPlayable<A> aPlayableGame) {
+    public SinglePlayerGameSimulator(int aNumSimulations, SinglePlayerPlayable<A> aPlayableGame) {
         super(aNumSimulations, aPlayableGame);
         theSimStatistics = new PlayerSimStatistics(aPlayableGame.getPlayer().getName());
     }

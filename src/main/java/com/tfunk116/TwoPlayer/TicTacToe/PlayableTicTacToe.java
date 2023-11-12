@@ -2,8 +2,8 @@ package com.tfunk116.TwoPlayer.TicTacToe;
 
 import java.util.Arrays;
 
-import com.tfunk116.TwoPlayer.Game.TwoPlayerPlayable;
 import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;
+import com.tfunk116.TwoPlayer.Game.Playable.TwoPlayerPlayable;
 import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
 import com.tfunk116.Game.Player.Player;
 

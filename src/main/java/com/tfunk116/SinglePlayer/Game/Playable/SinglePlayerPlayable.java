@@ -1,4 +1,4 @@
-package com.tfunk116.SinglePlayer.Game;
+package com.tfunk116.SinglePlayer.Game.Playable;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;

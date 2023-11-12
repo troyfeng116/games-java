@@ -1,4 +1,4 @@
-package com.tfunk116.TwoPlayer.Game;
+package com.tfunk116.TwoPlayer.Game.Playable;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.TwoPlayer.Game.GameState.TwoPlayerGameState;

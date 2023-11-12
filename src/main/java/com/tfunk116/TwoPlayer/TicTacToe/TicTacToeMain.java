@@ -1,6 +1,5 @@
 package com.tfunk116.TwoPlayer.TicTacToe;
 
-import com.tfunk116.TwoPlayer.Game.TwoPlayerGameSimulator;
 import com.tfunk116.Game.GameState.GameState.IllegalGameActionException;
 import com.tfunk116.Game.GameState.GameState.IllegalGamePayoffException;
 import com.tfunk116.Game.GameState.GameState.IllegalGameStateException;
@@ -8,6 +7,7 @@ import com.tfunk116.TwoPlayer.Game.Player.TwoPlayerImpl;
 import com.tfunk116.TwoPlayer.Game.Policy.TwoPlayerMinimaxPolicy;
 import com.tfunk116.TwoPlayer.Game.Policy.TwoPlayerPolicy;
 import com.tfunk116.TwoPlayer.Game.Policy.TwoPlayerRandomPolicy;
+import com.tfunk116.TwoPlayer.Game.Simulator.TwoPlayerGameSimulator;
 
 public class TicTacToeMain {
     public static void main(String[] args)

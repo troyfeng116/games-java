@@ -1,4 +1,4 @@
-package com.tfunk116.SingleStochastic.Game;
+package com.tfunk116.SingleStochastic.Game.Playable;
 
 import com.tfunk116.Game.Action.Action;
 import com.tfunk116.Game.Playable.PlayableGame;
