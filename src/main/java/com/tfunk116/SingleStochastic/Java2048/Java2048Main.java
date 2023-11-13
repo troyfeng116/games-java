@@ -39,7 +39,7 @@ public class Java2048Main {
 
         PlayableJava2048 myPlayableJava2048 = new PlayableJava2048(myExpectimaxPlayer);
         SingleStochasticGameSimulator<Java2048Action> mySimulator = new SingleStochasticGameSimulator<>(
-                3,
+                5,
                 myPlayableJava2048);
         mySimulator.runSimulations();
     }

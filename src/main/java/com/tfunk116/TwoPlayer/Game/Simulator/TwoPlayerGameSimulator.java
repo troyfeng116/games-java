@@ -46,13 +46,8 @@ public class TwoPlayerGameSimulator<A extends Action>
         }
 
         String getTwoPlayerSimReport() {
-            int aNumSimulationsRun = theMaxPlayerStatistics.getNumSimulationsRun();
-            double myMaxPlayerAvg = theMaxPlayerStatistics.getAvgPayoff();
-            double myMinPlayerAvg = theMinPlayerStatistics.getAvgPayoff();
             return String.format(
-                    "======== Simulation report ========\n%d simulations\nMax player %s avg payoff: %f\nMin player %s avg payoff: %f\n========\n",
-                    aNumSimulationsRun, theMaxPlayerStatistics.getPlayerName(), myMaxPlayerAvg,
-                    theMinPlayerStatistics.getPlayerName(), myMinPlayerAvg);
+                    "%s\n\n%s\n", theMaxPlayerStatistics.getSimReport(), theMinPlayerStatistics.getSimReport());
         }
     }
 }

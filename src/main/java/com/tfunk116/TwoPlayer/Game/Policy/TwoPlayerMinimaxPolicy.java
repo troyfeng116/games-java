@@ -17,7 +17,7 @@ public class TwoPlayerMinimaxPolicy<A extends Action> implements TwoPlayerPolicy
             A myBestAction = null;
 
             if (aState.isMaxPlayerTurn()) {
-                double myMaxPayoff = Double.MIN_VALUE;
+                double myMaxPayoff = Double.NEGATIVE_INFINITY;
                 for (A myAction : myActions) {
                     double mySearchRes = minimax(aState.getSuccessor(myAction));
                     if (mySearchRes > myMaxPayoff) {
@@ -28,7 +28,7 @@ public class TwoPlayerMinimaxPolicy<A extends Action> implements TwoPlayerPolicy
                 return myBestAction;
             }
 
-            double myMinPayoff = Double.MAX_VALUE;
+            double myMinPayoff = Double.POSITIVE_INFINITY;
             for (A myAction : myActions) {
                 double mySearchRes = minimax(aState.getSuccessor(myAction));
                 if (mySearchRes < myMinPayoff) {
@@ -60,14 +60,14 @@ public class TwoPlayerMinimaxPolicy<A extends Action> implements TwoPlayerPolicy
 
         List<A> myActions = aState.getLegalActions();
         if (aState.isMaxPlayerTurn()) {
-            double myMaxPayoff = Double.MIN_VALUE;
+            double myMaxPayoff = Double.NEGATIVE_INFINITY;
             for (A myAction : myActions) {
                 myMaxPayoff = Math.max(myMaxPayoff, minimax(aState.getSuccessor(myAction)));
             }
             return myMaxPayoff;
         }
 
-        double myMinPayoff = Double.MAX_VALUE;
+        double myMinPayoff = Double.POSITIVE_INFINITY;
         for (A myAction : myActions) {
             myMinPayoff = Math.min(myMinPayoff, minimax(aState.getSuccessor(myAction)));
         }

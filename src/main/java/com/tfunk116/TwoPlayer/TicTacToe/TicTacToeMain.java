@@ -13,19 +13,19 @@ import com.tfunk116.TwoPlayer.Game.Simulator.TwoPlayerGameSimulator;
 public class TicTacToeMain {
     public static void main(String[] args)
             throws IllegalGameStateException, IllegalGameActionException, IllegalGamePayoffException {
-        TwoPlayerPolicy<TicTacToeAction> myPlayer1Policy = new TwoPlayerInputPolicy<>(TicTacToeActionReader.INSTANCE);
         // TwoPlayerPolicy<TicTacToeAction> myPlayer1Policy = new
-        // TwoPlayerMinimaxPolicy<>();
+        // TwoPlayerInputPolicy<>(TicTacToeActionReader.INSTANCE);
+        TwoPlayerPolicy<TicTacToeAction> myPlayer1Policy = new TwoPlayerMinimaxPolicy<>();
         // TwoPlayerPolicy<TicTacToeAction> myPlayer1Policy = new
         // TwoPlayerRandomPolicy<>();
         TwoPlayerImpl<TicTacToeAction> myPlayer1 = new TwoPlayerImpl<>("Troy", myPlayer1Policy);
-        TwoPlayerPolicy<TicTacToeAction> myPlayer2Policy = new TwoPlayerMinimaxPolicy<>();
-        // TwoPlayerPolicy<TicTacToeAction> myPlayer2Policy = new
-        // TwoPlayerRandomPolicy<>();
-        TwoPlayerImpl<TicTacToeAction> myPlayer2 = new TwoPlayerImpl<>("Computer", myPlayer2Policy);
-        PlayableTicTacToe myPlayableTicTacToe = new PlayableTicTacToe(myPlayer1, myPlayer2, 3);
-        // myPlayableTicTacToe.playThroughGame();
 
+        // TwoPlayerPolicy<TicTacToeAction> myPlayer2Policy = new
+        // TwoPlayerMinimaxPolicy<>();
+        TwoPlayerPolicy<TicTacToeAction> myPlayer2Policy = new TwoPlayerRandomPolicy<>();
+        TwoPlayerImpl<TicTacToeAction> myPlayer2 = new TwoPlayerImpl<>("Computer", myPlayer2Policy);
+
+        PlayableTicTacToe myPlayableTicTacToe = new PlayableTicTacToe(myPlayer1, myPlayer2, 3);
         TwoPlayerGameSimulator<TicTacToeAction> mySimulator = new TwoPlayerGameSimulator<>(10, myPlayableTicTacToe);
         mySimulator.runSimulations();
     }
