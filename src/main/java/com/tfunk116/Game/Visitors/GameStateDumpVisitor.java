@@ -17,31 +17,12 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
         int myBoardSize = EightPuzzleState.getBoardSize();
         StringBuilder myBuilder = new StringBuilder();
 
-        myBuilder.append("   ");
-        for (int myC = 1; myC <= myBoardSize; myC++) {
-            myBuilder.append(' ');
-            myBuilder.append(myC);
-            myBuilder.append(' ');
-        }
-        myBuilder.append('\n');
+        myBuilder.append(getColLabelRow(3, myBoardSize));
 
-        StringBuilder myEdge = new StringBuilder();
-        myEdge.append("  ");
-        myEdge.append('x');
-        for (int myI = 0; myI < myBoardSize * 3; myI++) {
-            myEdge.append('-');
-        }
-        myEdge.append("x\n");
+        String myHorizontalEdge = getGridHorizontalEdge(2, myBoardSize * 3);
+        myBuilder.append(myHorizontalEdge);
 
-        StringBuilder myEmptyRow = new StringBuilder();
-        myEmptyRow.append("  ");
-        myEmptyRow.append('|');
-        for (int myI = 0; myI < myBoardSize * 3; myI++) {
-            myEmptyRow.append(' ');
-        }
-        myEmptyRow.append("|\n");
-
-        myBuilder.append(myEdge);
+        String myEmptyRow = getGridEmptyRow(2, myBoardSize * 3);
         for (int myR = 1; myR <= myBoardSize; myR++) {
             myBuilder.append(myR);
             myBuilder.append(' ');
@@ -61,7 +42,7 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
                 myBuilder.append(myEmptyRow);
             }
         }
-        myBuilder.append(myEdge);
+        myBuilder.append(myHorizontalEdge);
 
         return String.format("==================\n\n%s\nmoves taken: %d\n", myBuilder.toString(),
                 aState.getMovesTaken());
@@ -73,40 +54,16 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
         int myBoardSize = aState.getBoardSize();
         StringBuilder myBuilder = new StringBuilder();
 
-        StringBuilder myDelim = new StringBuilder();
-        for (int myI = 0; myI <= myBoardSize * 6; myI++) {
-            myDelim.append('=');
-        }
+        String myDelim = getDelim(myBoardSize * 6);
         myBuilder.append(myDelim);
-        myBuilder.append('\n');
-
         myBuilder.append(String.format("current turn: %s\n\n", aState.getCurrentActor().getName()));
 
-        myBuilder.append("   ");
-        for (int myCol = 1; myCol <= myBoardSize; myCol++) {
-            myBuilder.append(' ');
-            myBuilder.append(myCol);
-            myBuilder.append(' ');
-        }
-        myBuilder.append('\n');
+        myBuilder.append(getColLabelRow(3, myBoardSize));
 
-        StringBuilder myEdge = new StringBuilder();
-        myEdge.append("  ");
-        myEdge.append('x');
-        for (int myI = 0; myI < myBoardSize * 3; myI++) {
-            myEdge.append('-');
-        }
-        myEdge.append("x\n");
-        myBuilder.append(myEdge);
+        String myHorizontalEdge = getGridHorizontalEdge(2, myBoardSize * 3);
+        myBuilder.append(myHorizontalEdge);
 
-        StringBuilder myEmptyRow = new StringBuilder();
-        myEmptyRow.append("  ");
-        myEmptyRow.append('|');
-        for (int myI = 0; myI < myBoardSize * 3; myI++) {
-            myEmptyRow.append(' ');
-        }
-        myEmptyRow.append("|\n");
-
+        String myEmptyRow = getGridEmptyRow(2, myBoardSize * 3);
         for (int myRow = 0; myRow < myBoardSize; myRow++) {
             myBuilder.append(myRow + 1);
             myBuilder.append(" |");
@@ -125,7 +82,7 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
             }
         }
 
-        myBuilder.append(myEdge);
+        myBuilder.append(myHorizontalEdge);
         myBuilder.append('\n');
         myBuilder.append(myDelim);
         myBuilder.append('\n');
@@ -147,6 +104,72 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
             myBuilder.append('\n');
         }
         myBuilder.append('\n');
+        return myBuilder.toString();
+    }
+
+    private static String getDelim(int aWidth) {
+        StringBuilder myDelimBuilder = new StringBuilder();
+        for (int myI = 0; myI < aWidth; myI++) {
+            myDelimBuilder.append('=');
+        }
+        myDelimBuilder.append('\n');
+        return myDelimBuilder.toString();
+    }
+
+    /**
+     * Build string of column labels in grid strings, consisting of `aFrontSpaces`
+     * spaces, followed by each column index from `1` to `aMaxCol` inclusive with
+     * one space before and after the index, ending with a newline. Total length
+     * `aFrontSpaces` + 3 * aMaxCol`, not including newline.
+     */
+    private static String getColLabelRow(int aFrontSpaces, int aMaxCol) {
+        StringBuilder myBuilder = new StringBuilder();
+        for (int myI = 0; myI < aFrontSpaces; myI++) {
+            myBuilder.append(' ');
+        }
+        for (int myC = 1; myC <= aMaxCol; myC++) {
+            myBuilder.append(' ');
+            myBuilder.append(myC);
+            myBuilder.append(' ');
+        }
+        myBuilder.append('\n');
+        return myBuilder.toString();
+    }
+
+    /**
+     * Build string consisting of `aFrontSpaces` spaces, a start corner marker `x`,
+     * `aWidth` horizontal edge markers `-`, and an end corner marker `x`, ending
+     * with newline. Total length `aFrontSpaces + 2 + aWidth`, not including
+     * newline.
+     */
+    private static String getGridHorizontalEdge(int aFrontSpaces, int aWidth) {
+        StringBuilder myBuilder = new StringBuilder();
+        for (int myI = 0; myI < aFrontSpaces; myI++) {
+            myBuilder.append(' ');
+        }
+        myBuilder.append('x');
+        for (int myI = 0; myI < aWidth; myI++) {
+            myBuilder.append('-');
+        }
+        myBuilder.append("x\n");
+        return myBuilder.toString();
+    }
+
+    /**
+     * Build string consisting of `aFrontSpaces` spaces, a start column marker `|`,
+     * `aWidth` spaces, and an end column marker `|`, ending with newline. Total
+     * length `aFrontSpaces + 2 + aWidth`, not including newline.
+     */
+    private static String getGridEmptyRow(int aFrontSpaces, int aWidth) {
+        StringBuilder myBuilder = new StringBuilder();
+        for (int myI = 0; myI < aFrontSpaces; myI++) {
+            myBuilder.append(' ');
+        }
+        myBuilder.append('|');
+        for (int myI = 0; myI < aWidth; myI++) {
+            myBuilder.append(' ');
+        }
+        myBuilder.append("|\n");
         return myBuilder.toString();
     }
 }
