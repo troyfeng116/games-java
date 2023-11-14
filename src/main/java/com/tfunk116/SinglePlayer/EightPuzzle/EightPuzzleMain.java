@@ -7,6 +7,7 @@ import com.tfunk116.Game.Player.Player;
 import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;
 import com.tfunk116.SinglePlayer.Game.Playable.SinglePlayerPlayable;
 import com.tfunk116.SinglePlayer.Game.Player.SinglePlayerImpl;
+import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerBFSPolicy;
 import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerInputPolicy;
 import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerPolicy;
 import com.tfunk116.SinglePlayer.Game.Policy.SinglePlayerRandomPolicy;
@@ -26,8 +27,13 @@ public class EightPuzzleMain {
                 "troy",
                 myRandomPolicy);
 
-        SinglePlayerPlayable<EightPuzzleAction> myPlayable = new PlayableEightPuzzle(myRandomPlayer);
-        SinglePlayerGameSimulator<EightPuzzleAction> mySimulator = new SinglePlayerGameSimulator<>(1,
+        SinglePlayerPolicy<EightPuzzleAction> myBFSPolicy = new SinglePlayerBFSPolicy<>(EightPuzzleState.GOAL_STATE);
+        Player<EightPuzzleAction, SinglePlayerGameState<EightPuzzleAction>> myBFSPlayer = new SinglePlayerImpl<>(
+                "troy",
+                myBFSPolicy);
+
+        SinglePlayerPlayable<EightPuzzleAction> myPlayable = new PlayableEightPuzzle(myBFSPlayer);
+        SinglePlayerGameSimulator<EightPuzzleAction> mySimulator = new SinglePlayerGameSimulator<>(100,
                 myPlayable);
         mySimulator.runSimulations();
     }

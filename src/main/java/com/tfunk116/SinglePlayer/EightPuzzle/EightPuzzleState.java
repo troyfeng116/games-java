@@ -5,29 +5,36 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.tfunk116.Game.Player.Player;
+import com.tfunk116.Game.Visitors.GameStateDumpVisitor;
 import com.tfunk116.Game.Visitors.GameStateVisitor;
 import com.tfunk116.SinglePlayer.Game.GameState.SinglePlayerGameState;
 
 public class EightPuzzleState extends SinglePlayerGameState<EightPuzzleAction> {
-    private static final int EMPTY = -1;
     private static final int BOARD_SIZE = 3;
     private static final int LEN = BOARD_SIZE * BOARD_SIZE;
+    private static final int EMPTY = -1;
     private static final int[] SOLVED = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, EMPTY };
 
     private final int theMovesTaken;
     private final int[] theBoard;
+
+    public static final EightPuzzleState GOAL_STATE = new EightPuzzleState(null, -1, SOLVED);
 
     public EightPuzzleState(Player<EightPuzzleAction, SinglePlayerGameState<EightPuzzleAction>> aPlayer) {
         super(aPlayer);
 
         theMovesTaken = 0;
         theBoard = new int[LEN];
-        theBoard[0] = -1;
+        theBoard[0] = EMPTY;
         for (int myIdx = 1; myIdx < LEN; myIdx++) {
             theBoard[myIdx] = myIdx;
         }
 
-        shuffle(theBoard);
+        do {
+            shuffle(theBoard);
+        } while (!isSolvable(theBoard));
+
+        System.out.println(accept(GameStateDumpVisitor.INSTANCE));
     }
 
     private EightPuzzleState(Player<EightPuzzleAction, SinglePlayerGameState<EightPuzzleAction>> aPlayer,
@@ -87,12 +94,7 @@ public class EightPuzzleState extends SinglePlayerGameState<EightPuzzleAction> {
 
     @Override
     public boolean isTerminal() {
-        for (int myIdx = 0; myIdx < LEN; myIdx++) {
-            if (theBoard[myIdx] != SOLVED[myIdx]) {
-                return false;
-            }
-        }
-        return true;
+        return Arrays.equals(theBoard, SOLVED);
     }
 
     @Override
@@ -107,6 +109,25 @@ public class EightPuzzleState extends SinglePlayerGameState<EightPuzzleAction> {
     @Override
     public <T> T accept(GameStateVisitor<T> aVisitor) {
         return aVisitor.visit(this);
+    }
+
+    @Override
+    public boolean equals(Object aOther) {
+        if (this == aOther) {
+            return true;
+        }
+
+        if (!(aOther instanceof EightPuzzleState)) {
+            return false;
+        }
+
+        EightPuzzleState myOtherEightPuzzleState = (EightPuzzleState) aOther;
+        return Arrays.equals(theBoard, myOtherEightPuzzleState.getBoard());
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.toString(theBoard).hashCode();
     }
 
     private List<Integer> getNeighborIdxs(int aIdx) {
@@ -138,5 +159,17 @@ public class EightPuzzleState extends SinglePlayerGameState<EightPuzzleAction> {
             aArr[myI] = aArr[myJ];
             aArr[myJ] = myTmp;
         }
+    }
+
+    private static boolean isSolvable(int[] aArr) {
+        int myInversions = 0;
+        for (int myI = 0; myI < aArr.length; myI++) {
+            for (int myJ = myI + 1; myJ < aArr.length; myJ++) {
+                if (aArr[myI] != EMPTY && aArr[myJ] != EMPTY && aArr[myI] > aArr[myJ]) {
+                    myInversions++;
+                }
+            }
+        }
+        return myInversions % 2 == 0;
     }
 }
