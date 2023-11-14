@@ -73,22 +73,43 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
         int myBoardSize = aState.getBoardSize();
         StringBuilder myBuilder = new StringBuilder();
 
-        for (int myI = 0; myI <= myBoardSize * 3; myI++) {
-            myBuilder.append('=');
+        StringBuilder myDelim = new StringBuilder();
+        for (int myI = 0; myI <= myBoardSize * 6; myI++) {
+            myDelim.append('=');
         }
+        myBuilder.append(myDelim);
         myBuilder.append('\n');
 
-        myBuilder.append(String.format("current turn: %s\n", aState.getCurrentActor().getName()));
+        myBuilder.append(String.format("current turn: %s\n\n", aState.getCurrentActor().getName()));
 
-        myBuilder.append(' ');
+        myBuilder.append("   ");
         for (int myCol = 1; myCol <= myBoardSize; myCol++) {
             myBuilder.append(' ');
             myBuilder.append(myCol);
+            myBuilder.append(' ');
         }
         myBuilder.append('\n');
 
+        StringBuilder myEdge = new StringBuilder();
+        myEdge.append("  ");
+        myEdge.append('x');
+        for (int myI = 0; myI < myBoardSize * 3; myI++) {
+            myEdge.append('-');
+        }
+        myEdge.append("x\n");
+        myBuilder.append(myEdge);
+
+        StringBuilder myEmptyRow = new StringBuilder();
+        myEmptyRow.append("  ");
+        myEmptyRow.append('|');
+        for (int myI = 0; myI < myBoardSize * 3; myI++) {
+            myEmptyRow.append(' ');
+        }
+        myEmptyRow.append("|\n");
+
         for (int myRow = 0; myRow < myBoardSize; myRow++) {
             myBuilder.append(myRow + 1);
+            myBuilder.append(" |");
             for (int myCol = 0; myCol < myBoardSize; myCol++) {
                 myBuilder.append(' ');
                 myBuilder.append(switch (myBoard[myRow][myCol]) {
@@ -96,14 +117,18 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
                     case MIN_PLAYER -> 'O';
                     case EMPTY -> '_';
                 });
+                myBuilder.append(' ');
             }
-            myBuilder.append('\n');
+            myBuilder.append("|\n");
+            if (myRow != myBoardSize - 1) {
+                myBuilder.append(myEmptyRow);
+            }
         }
 
-        for (int myI = 0; myI < myBoardSize * 3; myI++) {
-            myBuilder.append('=');
-        }
-        myBuilder.append("\n\n");
+        myBuilder.append(myEdge);
+        myBuilder.append('\n');
+        myBuilder.append(myDelim);
+        myBuilder.append('\n');
 
         return myBuilder.toString();
     }
