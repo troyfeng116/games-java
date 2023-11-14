@@ -27,12 +27,13 @@ public class EightPuzzleMain {
                 "troy",
                 myRandomPolicy);
 
-        SinglePlayerPolicy<EightPuzzleAction> myBFSPolicy = new SinglePlayerBFSPolicy<>(EightPuzzleState.GOAL_STATE);
+        SinglePlayerPolicy<EightPuzzleAction> myBFSPolicy = new SinglePlayerBFSPolicy<>(
+                EightPuzzleState.GOAL_STATE);
         Player<EightPuzzleAction, SinglePlayerGameState<EightPuzzleAction>> myBFSPlayer = new SinglePlayerImpl<>(
                 "troy",
                 myBFSPolicy);
 
-        SinglePlayerPlayable<EightPuzzleAction> myPlayable = new PlayableEightPuzzle(myBFSPlayer);
+        SinglePlayerPlayable<EightPuzzleAction> myPlayable = new PlayableEightPuzzle(myInputPlayer);
         SinglePlayerGameSimulator<EightPuzzleAction> mySimulator = new SinglePlayerGameSimulator<>(100,
                 myPlayable);
         mySimulator.runSimulations();

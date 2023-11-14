@@ -34,7 +34,7 @@ public class EightPuzzleState extends SinglePlayerGameState<EightPuzzleAction> {
             shuffle(theBoard);
         } while (!isSolvable(theBoard));
 
-        System.out.println(accept(GameStateDumpVisitor.INSTANCE));
+        System.out.println(String.format("\nStarting state\n%s\n", accept(GameStateDumpVisitor.INSTANCE)));
     }
 
     private EightPuzzleState(Player<EightPuzzleAction, SinglePlayerGameState<EightPuzzleAction>> aPlayer,
@@ -52,6 +52,14 @@ public class EightPuzzleState extends SinglePlayerGameState<EightPuzzleAction> {
 
     public int getMovesTaken() {
         return theMovesTaken;
+    }
+
+    public static int getBoardSize() {
+        return BOARD_SIZE;
+    }
+
+    public static boolean isEmpty(int aVal) {
+        return aVal == EMPTY;
     }
 
     @Override

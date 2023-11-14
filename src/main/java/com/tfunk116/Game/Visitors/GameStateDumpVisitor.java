@@ -1,7 +1,5 @@
 package com.tfunk116.Game.Visitors;
 
-import java.util.Arrays;
-
 import com.tfunk116.SinglePlayer.EightPuzzle.EightPuzzleState;
 import com.tfunk116.SingleStochastic.Java2048.Java2048State;
 import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeCell;
@@ -15,7 +13,57 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
 
     @Override
     public String visit(EightPuzzleState aState) {
-        return String.format("=========\n%s\n\nmoves taken: %d\n", Arrays.toString(aState.getBoard()),
+        int[] myBoard = aState.getBoard();
+        int myBoardSize = EightPuzzleState.getBoardSize();
+        StringBuilder myBuilder = new StringBuilder();
+
+        myBuilder.append("   ");
+        for (int myC = 1; myC <= myBoardSize; myC++) {
+            myBuilder.append(' ');
+            myBuilder.append(myC);
+            myBuilder.append(' ');
+        }
+        myBuilder.append('\n');
+
+        StringBuilder myEdge = new StringBuilder();
+        myEdge.append("  ");
+        myEdge.append('x');
+        for (int myI = 0; myI < myBoardSize * 3; myI++) {
+            myEdge.append('-');
+        }
+        myEdge.append("x\n");
+
+        StringBuilder myEmptyRow = new StringBuilder();
+        myEmptyRow.append("  ");
+        myEmptyRow.append('|');
+        for (int myI = 0; myI < myBoardSize * 3; myI++) {
+            myEmptyRow.append(' ');
+        }
+        myEmptyRow.append("|\n");
+
+        myBuilder.append(myEdge);
+        for (int myR = 1; myR <= myBoardSize; myR++) {
+            myBuilder.append(myR);
+            myBuilder.append(' ');
+            myBuilder.append('|');
+            for (int myC = 0; myC < myBoardSize; myC++) {
+                int myIdx = (myR - 1) * myBoardSize + myC;
+                myBuilder.append(' ');
+                if (EightPuzzleState.isEmpty(myBoard[myIdx])) {
+                    myBuilder.append('_');
+                } else {
+                    myBuilder.append(myBoard[myIdx]);
+                }
+                myBuilder.append(' ');
+            }
+            myBuilder.append("|\n");
+            if (myR != myBoardSize) {
+                myBuilder.append(myEmptyRow);
+            }
+        }
+        myBuilder.append(myEdge);
+
+        return String.format("==================\n\n%s\nmoves taken: %d\n", myBuilder.toString(),
                 aState.getMovesTaken());
     }
 
