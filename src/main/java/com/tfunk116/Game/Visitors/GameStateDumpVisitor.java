@@ -22,6 +22,7 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
         String myHorizontalEdge = getGridHorizontalEdge(2, myBoardSize * 3);
         myBuilder.append(myHorizontalEdge);
 
+        // TODO: add getGrid() helper to reuse 8Puzzle/TTT
         String myEmptyRow = getGridEmptyRow(2, myBoardSize * 3);
         for (int myR = 1; myR <= myBoardSize; myR++) {
             myBuilder.append(myR);
@@ -92,28 +93,39 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
 
     @Override
     public String visit(Java2048State aState) {
-        StringBuilder myBuilder = new StringBuilder();
-        myBuilder.append("\n========\n");
-        myBuilder.append(String.format("Score: %f\n", aState.getPayoff()));
         int[][] myBoard = aState.getBoard();
-        for (int myR = 0; myR < myBoard.length; myR++) {
-            for (int myC = 0; myC < myBoard[0].length; myC++) {
-                myBuilder.append(myBoard[myR][myC]);
-                myBuilder.append(' ');
+        int myBoardSize = aState.getBoardSize();
+
+        StringBuilder myBuilder = new StringBuilder();
+
+        String myDelim = getDelim(myBoardSize * 9);
+        myBuilder.append(myDelim);
+        myBuilder.append(String.format("Score: %f\n\n", aState.getPayoff()));
+
+        String myHorizontalEdge = getGridHorizontalEdge(0, myBoardSize * 6);
+        myBuilder.append(myHorizontalEdge);
+
+        String myEmptyRow = getGridEmptyRow(0, myBoardSize * 6);
+        for (int myR = 0; myR < myBoardSize; myR++) {
+            myBuilder.append('|');
+            for (int myC = 0; myC < myBoardSize; myC++) {
+                myBuilder.append(padInt(myBoard[myR][myC], 6));
             }
-            myBuilder.append('\n');
+            myBuilder.append("|\n");
+            if (myR != myBoardSize - 1) {
+                myBuilder.append(myEmptyRow);
+            }
         }
+        myBuilder.append(myHorizontalEdge);
+
+        myBuilder.append('\n');
+        myBuilder.append(myDelim);
         myBuilder.append('\n');
         return myBuilder.toString();
     }
 
     private static String getDelim(int aWidth) {
-        StringBuilder myDelimBuilder = new StringBuilder();
-        for (int myI = 0; myI < aWidth; myI++) {
-            myDelimBuilder.append('=');
-        }
-        myDelimBuilder.append('\n');
-        return myDelimBuilder.toString();
+        return times('=', aWidth) + "\n";
     }
 
     /**
@@ -124,9 +136,7 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
      */
     private static String getColLabelRow(int aFrontSpaces, int aMaxCol) {
         StringBuilder myBuilder = new StringBuilder();
-        for (int myI = 0; myI < aFrontSpaces; myI++) {
-            myBuilder.append(' ');
-        }
+        myBuilder.append(times(' ', aFrontSpaces));
         for (int myC = 1; myC <= aMaxCol; myC++) {
             myBuilder.append(' ');
             myBuilder.append(myC);
@@ -144,13 +154,9 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
      */
     private static String getGridHorizontalEdge(int aFrontSpaces, int aWidth) {
         StringBuilder myBuilder = new StringBuilder();
-        for (int myI = 0; myI < aFrontSpaces; myI++) {
-            myBuilder.append(' ');
-        }
+        myBuilder.append(times(' ', aFrontSpaces));
         myBuilder.append('x');
-        for (int myI = 0; myI < aWidth; myI++) {
-            myBuilder.append('-');
-        }
+        myBuilder.append(times('-', aWidth));
         myBuilder.append("x\n");
         return myBuilder.toString();
     }
@@ -162,14 +168,33 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
      */
     private static String getGridEmptyRow(int aFrontSpaces, int aWidth) {
         StringBuilder myBuilder = new StringBuilder();
-        for (int myI = 0; myI < aFrontSpaces; myI++) {
-            myBuilder.append(' ');
-        }
+        myBuilder.append(times(' ', aFrontSpaces));
         myBuilder.append('|');
-        for (int myI = 0; myI < aWidth; myI++) {
-            myBuilder.append(' ');
-        }
+        myBuilder.append(times(' ', aWidth));
         myBuilder.append("|\n");
+        return myBuilder.toString();
+    }
+
+    /**
+     * Given integer, return string repetition, padded evenly on left/right sides to
+     * `aWidth`.
+     */
+    private static String padInt(int aVal, int aWidth) {
+        StringBuilder myPaddedIntBuilder = new StringBuilder();
+        String myValAsString = String.valueOf(aVal);
+        int myTotalPadding = aWidth - myValAsString.length();
+        int myPadding = myTotalPadding / 2;
+        myPaddedIntBuilder.append(times(' ', myPadding + (myTotalPadding % 2)));
+        myPaddedIntBuilder.append(myValAsString);
+        myPaddedIntBuilder.append(times(' ', myPadding));
+        return myPaddedIntBuilder.toString();
+    }
+
+    private static String times(char aCh, int aReps) {
+        StringBuilder myBuilder = new StringBuilder();
+        for (int myI = 0; myI < aReps; myI++) {
+            myBuilder.append(aCh);
+        }
         return myBuilder.toString();
     }
 }

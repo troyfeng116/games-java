@@ -51,6 +51,10 @@ public class Java2048State extends SingleStochasticGameState<Java2048Action> {
         return theScore;
     }
 
+    public int getBoardSize() {
+        return BOARD_SIZE;
+    }
+
     @Override
     public boolean isLegalAction(Java2048Action aMove) {
         if (aMove == Java2048Action.DOWN || aMove == Java2048Action.UP) {
