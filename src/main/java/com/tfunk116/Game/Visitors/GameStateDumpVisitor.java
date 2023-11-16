@@ -1,5 +1,7 @@
 package com.tfunk116.Game.Visitors;
 
+import java.util.function.Function;
+
 import com.tfunk116.SinglePlayer.EightPuzzle.EightPuzzleState;
 import com.tfunk116.SingleStochastic.Java2048.Java2048State;
 import com.tfunk116.TwoPlayer.TicTacToe.TicTacToeCell;
@@ -13,40 +15,24 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
 
     @Override
     public String visit(EightPuzzleState aState) {
-        int[] myBoard = aState.getBoard();
+        Integer[][] myBoard = aState.getBoardAsObjGrid();
         int myBoardSize = EightPuzzleState.getBoardSize();
         StringBuilder myBuilder = new StringBuilder();
 
-        myBuilder.append(getColLabelRow(3, myBoardSize));
+        String myDelim = getDelim(myBoardSize * 6);
+        myBuilder.append(myDelim);
 
-        String myHorizontalEdge = getGridHorizontalEdge(2, myBoardSize * 3);
-        myBuilder.append(myHorizontalEdge);
+        myBuilder.append(createGridRepresentation(myBoard, myBoardSize, (aVal) -> {
+            int aCell = (int) aVal;
+            return (EightPuzzleState.isEmpty(aCell)) ? '_' : aCell;
+        }));
 
-        // TODO: add getGrid() helper to reuse 8Puzzle/TTT
-        String myEmptyRow = getGridEmptyRow(2, myBoardSize * 3);
-        for (int myR = 1; myR <= myBoardSize; myR++) {
-            myBuilder.append(myR);
-            myBuilder.append(' ');
-            myBuilder.append('|');
-            for (int myC = 0; myC < myBoardSize; myC++) {
-                int myIdx = (myR - 1) * myBoardSize + myC;
-                myBuilder.append(' ');
-                if (EightPuzzleState.isEmpty(myBoard[myIdx])) {
-                    myBuilder.append('_');
-                } else {
-                    myBuilder.append(myBoard[myIdx]);
-                }
-                myBuilder.append(' ');
-            }
-            myBuilder.append("|\n");
-            if (myR != myBoardSize) {
-                myBuilder.append(myEmptyRow);
-            }
-        }
-        myBuilder.append(myHorizontalEdge);
+        myBuilder.append('\n');
+        myBuilder.append(String.format("moves taken: %d\n", aState.getMovesTaken()));
+        myBuilder.append(myDelim);
+        myBuilder.append('\n');
 
-        return String.format("==================\n\n%s\nmoves taken: %d\n", myBuilder.toString(),
-                aState.getMovesTaken());
+        return myBuilder.toString();
     }
 
     @Override
@@ -59,31 +45,15 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
         myBuilder.append(myDelim);
         myBuilder.append(String.format("current turn: %s\n\n", aState.getCurrentActor().getName()));
 
-        myBuilder.append(getColLabelRow(3, myBoardSize));
+        myBuilder.append(createGridRepresentation(myBoard, myBoardSize, (aVal) -> {
+            TicTacToeCell myCell = (TicTacToeCell) aVal;
+            return switch (myCell) {
+                case MAX_PLAYER -> 'X';
+                case MIN_PLAYER -> 'O';
+                case EMPTY -> '_';
+            };
+        }));
 
-        String myHorizontalEdge = getGridHorizontalEdge(2, myBoardSize * 3);
-        myBuilder.append(myHorizontalEdge);
-
-        String myEmptyRow = getGridEmptyRow(2, myBoardSize * 3);
-        for (int myRow = 0; myRow < myBoardSize; myRow++) {
-            myBuilder.append(myRow + 1);
-            myBuilder.append(" |");
-            for (int myCol = 0; myCol < myBoardSize; myCol++) {
-                myBuilder.append(' ');
-                myBuilder.append(switch (myBoard[myRow][myCol]) {
-                    case MAX_PLAYER -> 'X';
-                    case MIN_PLAYER -> 'O';
-                    case EMPTY -> '_';
-                });
-                myBuilder.append(' ');
-            }
-            myBuilder.append("|\n");
-            if (myRow != myBoardSize - 1) {
-                myBuilder.append(myEmptyRow);
-            }
-        }
-
-        myBuilder.append(myHorizontalEdge);
         myBuilder.append('\n');
         myBuilder.append(myDelim);
         myBuilder.append('\n');
@@ -121,11 +91,48 @@ public enum GameStateDumpVisitor implements GameStateVisitor<String> {
         myBuilder.append('\n');
         myBuilder.append(myDelim);
         myBuilder.append('\n');
+
         return myBuilder.toString();
     }
 
     private static String getDelim(int aWidth) {
         return times('=', aWidth) + "\n";
+    }
+
+    /**
+     * Given square `aBoardSize`-by-`aBoardSize` grid from a game state, format
+     * grid, with column and row indices, according to given mapping function.
+     * 
+     * TODO:
+     * - handle row/col indices with >1 digit
+     * - move space padding to mapping function, include mappingFnWidth
+     * - with cellWidth param, add shouldIncludeRowColLabels to extend to 2048
+     */
+    private static String createGridRepresentation(Object[][] aBoard, int aBoardSize,
+            Function<Object, Object> aCellMappingFunction) {
+        StringBuilder myBuilder = new StringBuilder();
+        myBuilder.append(getColLabelRow(3, aBoardSize));
+
+        String myHorizontalEdge = getGridHorizontalEdge(2, aBoardSize * 3);
+        myBuilder.append(myHorizontalEdge);
+
+        String myEmptyRow = getGridEmptyRow(2, aBoardSize * 3);
+        for (int myRow = 0; myRow < aBoardSize; myRow++) {
+            myBuilder.append(myRow + 1);
+            myBuilder.append(" |");
+            for (int myCol = 0; myCol < aBoardSize; myCol++) {
+                myBuilder.append(' ');
+                myBuilder.append(aCellMappingFunction.apply(aBoard[myRow][myCol]));
+                myBuilder.append(' ');
+            }
+            myBuilder.append("|\n");
+            if (myRow != aBoardSize - 1) {
+                myBuilder.append(myEmptyRow);
+            }
+        }
+
+        myBuilder.append(myHorizontalEdge);
+        return myBuilder.toString();
     }
 
     /**

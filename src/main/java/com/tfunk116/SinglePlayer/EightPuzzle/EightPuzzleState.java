@@ -50,6 +50,16 @@ public class EightPuzzleState extends SinglePlayerGameState<EightPuzzleAction> {
         return theBoard;
     }
 
+    public Integer[][] getBoardAsObjGrid() {
+        Integer[][] myObjGrid = new Integer[BOARD_SIZE][BOARD_SIZE];
+        for (int myR = 0; myR < BOARD_SIZE; myR++) {
+            for (int myC = 0; myC < BOARD_SIZE; myC++) {
+                myObjGrid[myR][myC] = theBoard[myR * BOARD_SIZE + myC];
+            }
+        }
+        return myObjGrid;
+    }
+
     public int getMovesTaken() {
         return theMovesTaken;
     }
